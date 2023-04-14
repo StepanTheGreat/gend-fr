@@ -1,3 +1,7 @@
+:root {
+    --max-btn-width: 128px;
+}
+
 .welcome-title .score-text {
     text-align: center;
 }
@@ -9,4 +13,36 @@
 
 .score-text > h1, h2 {
     text-align: center;
+}
+
+.current_word {
+    text-align: center;
+    align-content: center;
+}
+
+.gender-btns {
+    --padding: 4px;
+    display: flex;
+    gap: calc(var(--padding)/2);
+    padding-left: var(--padding);
+    padding-right: var(--padding);
+    justify-content: center;
+    flex-direction: row;
+}
+
+.gender-btns > * {
+    flex: 1 0 0px;
+    max-width: var(--max-btn-width);
+}
+
+.plural-item > ion-row {
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
+
+    max-width: var(--max-btn-width);
+
+    ion-row > * {
+        flex: 1 0 0px;
+    }
 }
