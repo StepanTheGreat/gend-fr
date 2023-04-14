@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 
+import { Index } from './index/index.page';
+
 export const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    path: "",
+    component: Index,
   },
 ];

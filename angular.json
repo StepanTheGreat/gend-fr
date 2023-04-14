@@ -77,12 +77,18 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "poll": 8000
+          },
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
             },
             "development": {
               "browserTarget": "app:build:development"
+            },
+            "options": {
+              "poll": 8000
             },
             "ci": {
               "progress": false

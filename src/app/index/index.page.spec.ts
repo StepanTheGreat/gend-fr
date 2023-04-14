@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ExploreContainerComponent } from './explore-container.component';
+import { Index } from './index.page';
 
-describe('ExploreContainerComponent', () => {
-  let component: ExploreContainerComponent;
-  let fixture: ComponentFixture<ExploreContainerComponent>;
+describe('Tab1Page', () => {
+  let component: Index;
+  let fixture: ComponentFixture<Index>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule]
+      imports: [Index, IonicModule],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ExploreContainerComponent);
+    fixture = TestBed.createComponent(Index);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
