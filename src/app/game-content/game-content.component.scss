@@ -1,0 +1,29 @@
+.gender-btns {
+    --padding: 4px;
+    display: flex;
+    gap: calc(var(--padding)/2);
+    padding-left: var(--padding);
+    padding-right: var(--padding);
+    flex-direction: column;
+    /*align-items: center;*/
+    justify-content: center;
+}
+
+.gender-btns > * {
+    align-self: center;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 60%;
+}
+
+.current-word > * {
+    text-align: center;
+}
+
+.answer-wrong {
+    color: var(--ion-color-danger);
+}
+
+.answer-right {
+    color: var(--ion-color-success);
+}

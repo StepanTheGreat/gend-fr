@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { Index } from './index.page';
+import { IndexPage } from './index.page';
 
 describe('Tab1Page', () => {
-  let component: Index;
-  let fixture: ComponentFixture<Index>;
+  let component: IndexPage;
+  let fixture: ComponentFixture<IndexPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Index, IonicModule],
+      imports: [IndexPage, IonicModule],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Index);
+    fixture = TestBed.createComponent(IndexPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

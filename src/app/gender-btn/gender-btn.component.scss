@@ -1,0 +1,20 @@
+ion-button {
+    border-radius: 5px;
+    display: block;
+
+    &.color-m {
+        --background: var(--ion-color-secondary);
+    }
+
+    &.color-f {
+        --background: var(--ion-color-tertiary);
+    }
+    
+    &.color-mf {
+        --background: var(--ion-color-medium);
+
+        & > * {
+            color: black;
+        }
+    }
+}

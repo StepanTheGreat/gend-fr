@@ -1,0 +1,16 @@
+<ion-button [ngClass]="{
+  'color-m': gender == 0,
+  'color-f': gender === 1,
+  'color-mf': gender === 2
+}"
+(click)="onClick()"
+>
+
+  <ion-icon *ngIf="gender == 0 || gender == 2" 
+    name="man-outline" size="large"
+  ></ion-icon>
+
+  <ion-icon *ngIf="gender == 1 || gender == 2"
+    name="woman-outline" size="large"
+  ></ion-icon>
+</ion-button>

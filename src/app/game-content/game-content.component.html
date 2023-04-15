@@ -1,0 +1,13 @@
+<ion-col class="game-content">
+  <ion-text *ngIf="showInfo" class="result-info">
+    <h1 class="result-info-text">You're cool!</h1>
+  </ion-text>
+  <ion-text class="current-word">
+    <h1 class="current-word-text">{{ word }}</h1>
+  </ion-text>
+  <ion-col class="gender-btns">
+    <app-gender-btn (checkGender)="checkGender($event)" [gender]="0"></app-gender-btn>
+    <app-gender-btn (checkGender)="checkGender($event)" [gender]="1"></app-gender-btn>
+    <app-gender-btn (checkGender)="checkGender($event)" [gender]="2"></app-gender-btn>
+  </ion-col>
+</ion-col>
