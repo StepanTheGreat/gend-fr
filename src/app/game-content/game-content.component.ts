@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { GenderBtnComponent } from '../gender-btn/gender-btn.component';
 import { CommonModule } from '@angular/common';
-
-import { Observable } from 'rxjs';
 
 const WORDS: {[gender: number]: string[]} = {
   0: ["maleword1", "maleword2", "maleword3", "maleword4"],
   1: ["femaleword1", "femaleword2", "femaleword3", "femaleword4"],
   2: ["bothword1", "bothword2", "bothword3", "bothword4"],
-}
+};
+
+const TO_RESET = 12;
 
 @Component({
   selector: 'app-game-content',
@@ -22,21 +22,28 @@ export class GameContentComponent {
   right: number = 0;
   wrong: number = 0;
 
-  word: string;
-  wordGender: number;
-  showInfo: boolean = false;
+  toReset: number = 0;
+
+  word: string = "";
+  wordGender: number = 0;
+
+  @Output() scoreEvent = new EventEmitter<number>();
+
   constructor() {
-    this.word = "megaWOrd";
-    this.wordGender = 1;
+    this.generateWord();
   }
 
   checkGender(gender: number) {
     if (this.wordGender == gender) {
-      this.right += 1;
+      this.scoreEvent.emit(0);
     } else {
-      this.wrong += 1;
+      this.scoreEvent.emit(1);
     }
-    this.showInfo = !this.showInfo;
+    this.toReset += 1;
+    if (this.toReset == TO_RESET) {
+      this.toReset = 0;
+      this.scoreEvent.emit(2);
+    }
     this.generateWord();
   }
 

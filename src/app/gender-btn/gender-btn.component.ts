@@ -2,12 +2,6 @@ import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
-enum Gender {
-  Male,
-  Female,
-  Both
-}
-
 @Component({
   selector: 'app-gender-btn',
   templateUrl: './gender-btn.component.html',

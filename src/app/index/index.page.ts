@@ -3,7 +3,12 @@ import { IonicModule } from '@ionic/angular';
 import { GenderBtnComponent } from '../gender-btn/gender-btn.component';
 import { GameContentComponent } from '../game-content/game-content.component';
 
-import { Action } from '@ngrx/store';
+enum ScoreAction {
+  RightAdd,
+  WrongAdd,
+  Reset,
+  None
+}
 
 @Component({
   selector: 'app-index',
@@ -13,8 +18,27 @@ import { Action } from '@ngrx/store';
   imports: [IonicModule, GenderBtnComponent, GameContentComponent],
 })
 export class IndexPage {
+  scoreAction: number = 0;
   scoreRight: number = 0;
   scoreWrong: number = 0;
+  scoreTxt: string = "0%";
 
+  onScoreEvent(scoreEvent: number) {
+    let event: ScoreAction = scoreEvent;
+    if (event == ScoreAction.RightAdd) {
+      this.scoreRight += 1;
+    } else if (event == ScoreAction.WrongAdd) {
+      this.scoreWrong += 1;  
+    } else if (event == ScoreAction.Reset) {
+      this.scoreRight = 0;
+      this.scoreWrong = 0;
+    }
+    this.updateScore();
+  }
 
+  updateScore() {
+    let all = Math.max(this.scoreWrong+this.scoreRight, 1);
+    let percent = Math.round((this.scoreRight/all)*100);
+    this.scoreTxt = `${percent}%`;
+  }
 }
