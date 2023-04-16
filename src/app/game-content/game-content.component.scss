@@ -18,6 +18,8 @@
 
 .current-word > * {
     text-align: center;
+    transition-property: opacity;
+    transition-duration: 0.8s;
 }
 
 .answer-wrong {
@@ -26,4 +28,8 @@
 
 .answer-right {
     color: var(--ion-color-success);
+}
+
+.current-word-ending {
+    color: var(--ion-color-danger);
 }
