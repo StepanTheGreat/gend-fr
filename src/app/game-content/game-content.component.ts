@@ -9,8 +9,6 @@ const WORDS: {[gender: number]: string[]} = {
   2: ["bothword1", "bothword2", "bothword3", "bothword4"],
 };
 
-const TO_RESET = 12;
-
 @Component({
   selector: 'app-game-content',
   templateUrl: './game-content.component.html',
@@ -21,8 +19,6 @@ const TO_RESET = 12;
 export class GameContentComponent {
   right: number = 0;
   wrong: number = 0;
-
-  toReset: number = 0;
 
   word: string = "";
   wordGender: number = 0;
@@ -38,11 +34,6 @@ export class GameContentComponent {
       this.scoreEvent.emit(0);
     } else {
       this.scoreEvent.emit(1);
-    }
-    this.toReset += 1;
-    if (this.toReset == TO_RESET) {
-      this.toReset = 0;
-      this.scoreEvent.emit(2);
     }
     this.generateWord();
   }

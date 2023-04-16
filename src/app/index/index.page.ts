@@ -18,7 +18,6 @@ enum ScoreAction {
   imports: [IonicModule, GenderBtnComponent, GameContentComponent],
 })
 export class IndexPage {
-  scoreAction: number = 0;
   scoreRight: number = 0;
   scoreWrong: number = 0;
   scoreTxt: string = "0%";
