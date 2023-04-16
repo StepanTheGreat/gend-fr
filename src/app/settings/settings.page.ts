@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
+import { Router } from '@angular/router';
+
 import { SettingsContentComponent } from "../settings-content/settings-content.component"
 
 @Component({
@@ -14,6 +16,9 @@ import { SettingsContentComponent } from "../settings-content/settings-content.c
 })
 export class SettingsPage {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
+  returnToMain() {
+    this.router.navigate([""]);
+  }
 }

@@ -3,6 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { GenderBtnComponent } from '../gender-btn/gender-btn.component';
 import { GameContentComponent } from '../game-content/game-content.component';
 
+import { Router } from '@angular/router';
+
 enum ScoreAction {
   RightAdd,
   WrongAdd,
@@ -22,6 +24,8 @@ export class IndexPage {
   scoreWrong: number = 0;
   scoreTxt: string = "0%";
 
+  constructor(private router: Router) {}
+
   onScoreEvent(scoreEvent: number) {
     let event: ScoreAction = scoreEvent;
     if (event == ScoreAction.RightAdd) {
@@ -39,5 +43,9 @@ export class IndexPage {
     let all = Math.max(this.scoreWrong+this.scoreRight, 1);
     let percent = Math.round((this.scoreRight/all)*100);
     this.scoreTxt = `${percent}%`;
+  }
+
+  goToSettings() {
+    this.router.navigate(["settings"]);
   }
 }

@@ -8,10 +8,8 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [IonicModule]
 })
-export class SettingsContentComponent  implements OnInit {
+export class SettingsContentComponent {
 
-  constructor() { }
-
-  ngOnInit() {}
+  constructor() {}
 
 }

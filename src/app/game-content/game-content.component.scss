@@ -16,7 +16,7 @@
     max-width: 60%;
 }
 
-.current-word > * {
+.current-word > *, .mistake-description > * {
     text-align: center;
     transition-property: opacity;
     transition-duration: 0.8s;
