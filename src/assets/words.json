@@ -1,0 +1,16 @@
+[
+    [
+        "homme", "garçon", "père", "frère", "fils", "ami", "voisin", "chien", "chat", "cheval", "oiseau", "poisson", "arbre", "bateau", "avion", "train", 
+        "vélo", "ordinateur", "téléphone", "livre", "journal", "film", "jeu", "sport", "instrument", "artiste", "médecin", "professeur", "étudiant", "ingénieur", 
+        "avocat", "police", "soldat", "chef", "président", "roi", "dieu"
+    ],
+    [
+        "femme", "fille", "mère", "soeur", "fille", "amie", "voisine", "chienne", "chatte", "jument", "poule", "vache", "maison", "voiture", "moto", "poussette", 
+        "valise", "cuisine", "école", "université", "musique", "peinture", "sculpture", "littérature", "philosophie", "religion", "science", "histoire", "géographie", 
+        "économie", "politique", "société", "entreprise", "association", "administration", "armée", "royauté", "divinité"
+    ],
+    [
+        "ami", "voisin", "acteur(trice)", "étudiant", "chanteur", "danseur", "photographe", "journaliste", "écrivain", "chercheur", "volontaire", "bénévole", 
+        "travailleur", "citoyen", "touriste", "artiste", "professeur", "personne"
+    ]
+]

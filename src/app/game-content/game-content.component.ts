@@ -2,11 +2,13 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { GenderBtnComponent } from '../gender-btn/gender-btn.component';
 import { CommonModule } from '@angular/common';
+import wordsArray from "../../assets/words.json";
+
 
 const WORDS: {[gender: number]: string[]} = {
-  0: ["maleword1", "maleword2", "maleword3", "maleword4"],
-  1: ["femaleword1", "femaleword2", "femaleword3", "femaleword4"],
-  2: ["bothword1", "bothword2", "bothword3", "bothword4"],
+  0: wordsArray[0],
+  1: wordsArray[1],
+  2: wordsArray[2],
 };
 
 @Component({
