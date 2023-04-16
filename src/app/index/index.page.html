@@ -15,7 +15,7 @@
 <ion-content [fullscreen]="true">
   <ion-text color="primary" class="score-text">
     <h1>Your score:</h1>
-    <h2>{{ scoreTxt }}</h2>
+    <h2>{{scoreTxt}}</h2>
   </ion-text>
   <app-game-content (scoreEvent)="onScoreEvent($event)"></app-game-content>
 </ion-content>

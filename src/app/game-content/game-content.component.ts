@@ -42,15 +42,15 @@ export class GameContentComponent {
     this.active = false;
     if (this.wordGender == gender) {
       this.scoreEvent.emit(0);
+      this.generateWord();
     } else {
       let spliced = sliceWord(this.displayWord, this.wordGender);
       this.displayWord = spliced[0];
       this.displayEnding = spliced[1];
       console.log(spliced);
       this.scoreEvent.emit(1);
+      setTimeout(() => this.generateWord(), DELAY)
     }
-    setTimeout(() => this.generateWord(), DELAY)
-    //this.generateWord();
   }
 
   generateWord() {
