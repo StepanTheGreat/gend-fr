@@ -1,10 +1,17 @@
 <ion-col>
-  <div>
-    <h2 style="display: inline;">Light theme: </h2><ion-checkbox style="display: inline-block;"></ion-checkbox>
-    <p>Controls your app theme. Only 2 modes: Light and Dark. Complete changes app's coloring theme.</p>
-  </div>
-  <div>
-    <ion-button color="danger">Reset score</ion-button>
-    <p>Reset all your score, but keeps only your best one.</p>
-  </div>
+  <ion-item>
+    <ion-label>
+      <h1>Light theme: </h1>
+      <p>Controls your app theme. Light or Dark?</p>
+    </ion-label>
+    <ion-toggle [checked]="isColorThemeLight()" (ionChange)="changeColorTheme()"></ion-toggle>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+      <h1>Reset score: </h1>
+      <p>Resets all of your current score.</p>
+      <p>(Keeps only the best score).</p>
+    </ion-label>
+    <ion-button color="danger" size="default">Reset score</ion-button>
+  </ion-item>
 </ion-col>

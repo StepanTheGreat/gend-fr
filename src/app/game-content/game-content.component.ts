@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { sliceWord, grammarError } from "../../assets/grammar";
 import wordsArray from "../../assets/words.json";
 
-
 const DELAY: number = 1.5 * 2000;
 const WORDS: {[gender: number]: string[]} = {
   0: wordsArray[0],
@@ -41,17 +40,19 @@ export class GameContentComponent {
       return;
     }
     this.active = false;
+    let delay = 500;
     if (this.wordGender == gender) {
       this.scoreEvent.emit(0);
-      this.generateWord();
     } else {
+      delay = 2500;
       let spliced = sliceWord(this.displayWord, this.wordGender);
       this.displayWord = spliced[0];
       this.displayEnding = spliced[1];
       this.displayDescription = grammarError(spliced[0], spliced[1], this.wordGender);
       this.scoreEvent.emit(1);
-      setTimeout(() => this.generateWord(), DELAY)
+      
     }
+    setTimeout(() => this.generateWord(), delay)
   }
 
   generateWord() {

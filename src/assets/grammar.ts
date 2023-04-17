@@ -30,7 +30,7 @@ export function sliceWord(word: string, gender: number): [string, string] {
 
 export function grammarError(word: string, suffix: string, gender: number): string {
     let genders = ["masculine", "feminine", "neutral"];
-    let txt = `The word \"${word}\" is ${genders[gender]}. `;
+    let txt = `The word \"${word+suffix}\" is ${genders[gender]}. `;
     if (suffix) {
         txt += `Pay closer attention to the suffix \"${suffix}\"`;
     } else {

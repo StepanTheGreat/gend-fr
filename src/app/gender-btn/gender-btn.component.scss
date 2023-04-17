@@ -3,18 +3,29 @@ ion-button {
     display: block;
 
     &.color-m {
+        /*
         --background: var(--ion-color-secondary);
+        */
+        --background: var(--ion-color-primary);
     }
 
     &.color-f {
+        /*
         --background: var(--ion-color-tertiary);
+        */
+        --background: var(--ion-color-primary);
     }
     
     &.color-mf {
+        /*
         --background: var(--ion-color-medium);
+        */
+        --background: var(--ion-color-primary);
 
+        /*
         & > * {
             color: black;
         }
+        */
     }
 }
