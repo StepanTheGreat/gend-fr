@@ -1,7 +1,6 @@
 <ion-button [ngClass]="{
-  'color-m': gender == 0,
-  'color-f': gender === 1,
-  'color-mf': gender === 2
+  'correct-success': correct == 1,
+  'correct-wrong': correct == 2
 }"
 (click)="onClick()"
 >

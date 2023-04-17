@@ -23,6 +23,8 @@ export class GameContentComponent {
   right: number = 0;
   wrong: number = 0;
 
+  buttonThemes: [number, number, number] = [0, 0, 0];
+
   active: boolean = true;
   displayWord: string = "";
   displayEnding: string = "";
@@ -40,8 +42,10 @@ export class GameContentComponent {
       return;
     }
     this.active = false;
-    let delay = 500;
+    let delay = 1000;
     if (this.wordGender == gender) {
+      this.buttonThemes[this.wordGender] = 1;
+
       this.scoreEvent.emit(0);
     } else {
       delay = 2500;
@@ -49,20 +53,28 @@ export class GameContentComponent {
       this.displayWord = spliced[0];
       this.displayEnding = spliced[1];
       this.displayDescription = grammarError(spliced[0], spliced[1], this.wordGender);
+      this.buttonThemes = [2, 2, 2];
+      this.buttonThemes[this.wordGender] = 1;
+
       this.scoreEvent.emit(1);
       
     }
     setTimeout(() => this.generateWord(), delay)
   }
 
-  generateWord() {
+  resetInfo() {
     this.displayDescription = "";
+    this.displayEnding = "";
+    this.buttonThemes = [0, 0, 0];
+    this.active = true;
+  }
+
+  generateWord() {
     let gend: number = Math.round(Math.random()*2);
     let words = WORDS[gend];
     let randIndex = Math.round(Math.random()*(words.length-1))
     this.displayWord = words[randIndex];
-    this.displayEnding = "";
     this.wordGender = gend;
-    this.active = true;
+    this.resetInfo();
   }
 }

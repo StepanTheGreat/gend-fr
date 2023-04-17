@@ -8,8 +8,20 @@
     <h1 class="current-word-text">{{displayWord}}<span class="current-word-ending">{{displayEnding}}</span></h1>
   </ion-text>
   <ion-col class="gender-btns">
-    <app-gender-btn (checkGender)="checkGender($event)" [gender]="0"></app-gender-btn>
-    <app-gender-btn (checkGender)="checkGender($event)" [gender]="1"></app-gender-btn>
-    <app-gender-btn (checkGender)="checkGender($event)" [gender]="2"></app-gender-btn>
+    <app-gender-btn 
+      (checkGender)="checkGender($event)"
+      [gender]="0"
+      [correct]="buttonThemes[0]"
+    ></app-gender-btn>
+    <app-gender-btn 
+      (checkGender)="checkGender($event)" 
+      [gender]="1"
+      [correct]="buttonThemes[1]"
+    ></app-gender-btn>
+    <app-gender-btn 
+      (checkGender)="checkGender($event)" 
+      [gender]="2"
+      [correct]="buttonThemes[2]"
+    ></app-gender-btn>
   </ion-col>
 </ion-col>

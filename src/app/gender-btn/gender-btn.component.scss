@@ -1,31 +1,15 @@
 ion-button {
+    --background: var(--ion-color-primary);
+    --transition: 0.15s linear;
+
     border-radius: 5px;
     display: block;
+}
 
-    &.color-m {
-        /*
-        --background: var(--ion-color-secondary);
-        */
-        --background: var(--ion-color-primary);
-    }
+.correct-wrong {
+    --background: var(--ion-color-danger);
+}
 
-    &.color-f {
-        /*
-        --background: var(--ion-color-tertiary);
-        */
-        --background: var(--ion-color-primary);
-    }
-    
-    &.color-mf {
-        /*
-        --background: var(--ion-color-medium);
-        */
-        --background: var(--ion-color-primary);
-
-        /*
-        & > * {
-            color: black;
-        }
-        */
-    }
+.correct-success {
+    --background: var(--ion-color-success);
 }

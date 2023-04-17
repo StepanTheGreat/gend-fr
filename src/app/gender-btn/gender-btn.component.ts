@@ -13,13 +13,15 @@ import { IonicModule } from '@ionic/angular';
 export class GenderBtnComponent  {
   constructor() {
     this.gender = 0;
+    this.correct = 0;
   }
 
   @Input() gender: 0 | 1 | 2;
+  @Input() correct: number;
   @Output() checkGender = new EventEmitter<number>();
 
   onClick() {
-    console.log(`You've chosen ${this.gender}`);
     this.checkGender.emit(this.gender);
+    console.log(this.correct);
   }
 }
