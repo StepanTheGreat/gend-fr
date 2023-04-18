@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, inject } from '@angular/core';
+import { Component, EnvironmentInjector, OnInit, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 
@@ -9,6 +9,11 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [IonicModule, CommonModule],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  ngOnInit() {
+    document.body.setAttribute("color-theme", "dark");
+  }
+
   public environmentInjector = inject(EnvironmentInjector);
 }

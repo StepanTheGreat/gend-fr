@@ -4,12 +4,5 @@
 }"
 (click)="onClick()"
 >
-
-  <ion-icon *ngIf="gender == 0 || gender == 2" 
-    name="man-outline" size="large"
-  ></ion-icon>
-
-  <ion-icon *ngIf="gender == 1 || gender == 2"
-    name="woman-outline" size="large"
-  ></ion-icon>
+  <ion-label>{{ genders[gender] }}</ion-label>
 </ion-button>
