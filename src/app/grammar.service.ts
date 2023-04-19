@@ -1,17 +1,25 @@
+import { Injectable } from '@angular/core';
 
 const ENDINGS = [
-    [
-        "age", "an", "c", "d", "eme", "g", "i", "in", "is", "iste",
-        "k", "l", "lon", "m", "non", "o", "ome", "r", "ron", "sme", 
-        "t", "taire", "ton", "tre", "u", "us"
-    ],
-    [
-        "ade", "aison", "ce", "ee", "ie", "iere", "ine", "ion", "ite",
-        "lle", "se", "tte", "ude", "ure"
-    ]
+  [
+      "age", "an", "c", "d", "eme", "g", "i", "in", "is", "iste",
+      "k", "l", "lon", "m", "non", "o", "ome", "r", "ron", "sme", 
+      "t", "taire", "ton", "tre", "u", "us"
+  ],
+  [
+      "ade", "aison", "ce", "ee", "ie", "iere", "ine", "ion", "ite",
+      "lle", "se", "tte", "ude", "ure"
+  ]
 ]
 
-export function sliceWord(word: string, gender: number): [string, string] {
+@Injectable({
+  providedIn: 'root'
+})
+export class GrammarService {
+
+  constructor() { }
+
+  sliceWord(word: string, gender: number): [string, string] {
     if (gender != 0 && gender != 1) {
         return [word, ""];
     }
@@ -26,9 +34,9 @@ export function sliceWord(word: string, gender: number): [string, string] {
         }
     });
     return result;
-}
+  }
 
-export function grammarError(word: string, suffix: string, gender: number): string {
+  grammarError(word: string, suffix: string, gender: number): string {
     let genders = ["masculine", "feminine", "neutral"];
     let txt = `The word \"${word+suffix}\" is ${genders[gender]}. `;
     if (suffix) {
@@ -37,4 +45,5 @@ export function grammarError(word: string, suffix: string, gender: number): stri
         txt += `This is an exception.`;
     }   
     return txt;
+  }
 }

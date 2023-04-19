@@ -2,8 +2,25 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { GenderBtnComponent } from '../gender-btn/gender-btn.component';
 import { CommonModule } from '@angular/common';
-import { sliceWord, grammarError } from "../../assets/grammar";
-import wordsArray from "../../assets/words.json";
+
+import { GrammarService } from 'src/app/grammar.service';
+
+const wordsArray = [
+  [
+      "homme", "garçon", "père", "frère", "fils", "ami", "voisin", "chien", "chat", "cheval", "oiseau", "poisson", "arbre", "bateau", "avion", "train", 
+      "vélo", "ordinateur", "téléphone", "livre", "journal", "film", "jeu", "sport", "instrument", "artiste", "médecin", "professeur", "étudiant", "ingénieur", 
+      "avocat", "police", "soldat", "chef", "président", "roi", "dieu"
+  ],
+  [
+      "femme", "fille", "mère", "soeur", "fille", "amie", "voisine", "chienne", "chatte", "jument", "poule", "vache", "maison", "voiture", "moto", "poussette", 
+      "valise", "cuisine", "école", "université", "musique", "peinture", "sculpture", "littérature", "philosophie", "religion", "science", "histoire", "géographie", 
+      "économie", "politique", "société", "entreprise", "association", "administration", "armée", "royauté", "divinité"
+  ],
+  [
+      "ami", "voisin", "acteur", "étudiant", "chanteur", "danseur", "photographe", "journaliste", "écrivain", "chercheur", "volontaire", "bénévole", 
+      "travailleur", "citoyen", "touriste", "artiste", "professeur", "personne"
+  ]
+]
 
 const DELAY: number = 1.5 * 2000;
 const WORDS: {[gender: number]: string[]} = {
@@ -33,7 +50,7 @@ export class GameContentComponent {
 
   @Output() scoreEvent = new EventEmitter<number>();
 
-  constructor() {
+  constructor(private grammarService: GrammarService) {
     this.generateWord();
   }
 
@@ -48,11 +65,11 @@ export class GameContentComponent {
 
       this.scoreEvent.emit(0);
     } else {
-      delay = 2500;
-      let spliced = sliceWord(this.displayWord, this.wordGender);
+      delay = DELAY;
+      let spliced = this.grammarService.sliceWord(this.displayWord, this.wordGender);
       this.displayWord = spliced[0];
       this.displayEnding = spliced[1];
-      this.displayDescription = grammarError(spliced[0], spliced[1], this.wordGender);
+      this.displayDescription = this.grammarService.grammarError(spliced[0], spliced[1], this.wordGender);
       this.buttonThemes = [2, 2, 2];
       this.buttonThemes[this.wordGender] = 1;
 

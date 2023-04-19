@@ -7,7 +7,7 @@
   <ion-text class="current-word">
     <h1 class="current-word-text">{{displayWord}}<span class="current-word-ending">{{displayEnding}}</span></h1>
   </ion-text>
-  <ion-row class="gender-btns">
+  <ion-col class="gender-btns">
     <!-- Three different buttons -->
     <app-gender-btn
       *ngFor="let genderIndex of [0, 1, 2]" 
@@ -15,5 +15,5 @@
       [gender]="genderIndex"
       [correct]="buttonThemes[genderIndex]"
     ></app-gender-btn>
-  </ion-row>
+  </ion-col>
 </ion-col>

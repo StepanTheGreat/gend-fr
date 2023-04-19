@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { ThemeService } from 'src/app/theme.service';
 
 @Component({
   selector: 'app-settings-content',
@@ -10,16 +11,14 @@ import { IonicModule } from '@ionic/angular';
 })
 export class SettingsContentComponent {
 
-  constructor() {}
+  constructor(private themeService: ThemeService) {}
 
   isColorThemeLight(): boolean {
-    return document.body.getAttribute("color-theme") != "dark";
+    return this.themeService.isColorThemeLight();
   }
 
   changeColorTheme() {
-    let attr = document.body.getAttribute("color-theme");
-    let theme = (attr == "dark") ? "light" : "dark";
-    document.body.setAttribute("color-theme", theme);
+    this.themeService.changeColorTheme();
   }
 
 }
