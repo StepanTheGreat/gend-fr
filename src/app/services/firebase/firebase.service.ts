@@ -15,9 +15,8 @@ enum AuthStatus {
 }
 
 type UserDataType = {
-  bestScoreRight: number,
-  bestScoreWrong: number,
-  totalGuessed: number
+  scoreRight: number,
+  scoreWrong: number
 }
 
 @Injectable({
@@ -29,6 +28,8 @@ export class FirebaseService {
 
   private userCredential?: auth.OAuthCredential;
   private userID: string = "";
+
+  toSave: number = 0;
 
   app: FirebaseApp;
   db: firestore.Firestore;
@@ -57,17 +58,15 @@ export class FirebaseService {
       if (docSnap.exists()) {
         let currentData = docSnap.data();
         this.userData = {
-          "bestScoreRight": currentData["bestScoreRight"],
-          "bestScoreWrong": currentData["bestScoreWrong"],
-          "totalGuessed": currentData["totalGuessed"],
+          "scoreRight": currentData["scoreRight"],
+          "scoreWrong": currentData["scoreWrong"],
         }
       } else {
         console.log("The document doesn't exist! Creating...");
         firestore.setDoc(docRef, 
           { 
-            "bestScoreRight": 0,
-            "bestScoreWrong": 0,
-            "totalGuessed": 0
+            "scoreRight": 0,
+            "scoreWrong": 0,
           }
         );
       }
@@ -81,6 +80,12 @@ export class FirebaseService {
     if (!this.userData) return;
 
     this.userData = newData;
+
+    this.toSave += 1;
+    if (this.toSave > 10) {
+      this.toSave = 0;
+      this.saveData();
+    }
   }
 
   saveData() {

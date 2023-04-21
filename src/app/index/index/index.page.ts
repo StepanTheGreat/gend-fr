@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   imports: [IonicModule, GenderBtnComponent, GameContentComponent, AuthButtonComponent],
 })
 export class IndexPage {
+  bestScoreTxt: string = "0%"
   scoreTxt: string = "0%";
 
   constructor(
