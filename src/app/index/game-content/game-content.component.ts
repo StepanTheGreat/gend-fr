@@ -1,40 +1,22 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { GenderBtnComponent } from '../gender-btn/gender-btn.component';
+
 import { CommonModule } from '@angular/common';
 
-import { GrammarService } from 'src/app/grammar.service';
-
-const wordsArray = [
-  [
-      "homme", "garçon", "père", "frère", "fils", "ami", "voisin", "chien", "chat", "cheval", "oiseau", "poisson", "arbre", "bateau", "avion", "train", 
-      "vélo", "ordinateur", "téléphone", "livre", "journal", "film", "jeu", "sport", "instrument", "artiste", "médecin", "professeur", "étudiant", "ingénieur", 
-      "avocat", "police", "soldat", "chef", "président", "roi", "dieu"
-  ],
-  [
-      "femme", "fille", "mère", "soeur", "fille", "amie", "voisine", "chienne", "chatte", "jument", "poule", "vache", "maison", "voiture", "moto", "poussette", 
-      "valise", "cuisine", "école", "université", "musique", "peinture", "sculpture", "littérature", "philosophie", "religion", "science", "histoire", "géographie", 
-      "économie", "politique", "société", "entreprise", "association", "administration", "armée", "royauté", "divinité"
-  ],
-  [
-      "ami", "voisin", "acteur", "étudiant", "chanteur", "danseur", "photographe", "journaliste", "écrivain", "chercheur", "volontaire", "bénévole", 
-      "travailleur", "citoyen", "touriste", "artiste", "professeur", "personne"
-  ]
-]
+import { GrammarService } from 'src/app/services/grammar/grammar.service';
 
 const DELAY: number = 1.5 * 2000;
-const WORDS: {[gender: number]: string[]} = {
-  0: wordsArray[0],
-  1: wordsArray[1],
-  2: wordsArray[2],
-};
 
 @Component({
   selector: 'app-game-content',
   templateUrl: './game-content.component.html',
   styleUrls: ['./game-content.component.scss'],
   standalone: true,
-  imports: [IonicModule, GenderBtnComponent, CommonModule]
+  imports: [
+    IonicModule, CommonModule, 
+    GenderBtnComponent
+  ]
 })
 export class GameContentComponent {
   right: number = 0;
@@ -87,11 +69,9 @@ export class GameContentComponent {
   }
 
   generateWord() {
-    let gend: number = Math.round(Math.random()*2);
-    let words = WORDS[gend];
-    let randIndex = Math.round(Math.random()*(words.length-1))
-    this.displayWord = words[randIndex];
-    this.wordGender = gend;
+    let wordAndGend = this.grammarService.generateWord();
+    this.displayWord = wordAndGend[0];
+    this.wordGender = wordAndGend[1];
     this.resetInfo();
   }
 }

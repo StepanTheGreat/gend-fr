@@ -1,9 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-row class="header-toolbar">
-      <ion-button class="logged-status">
-        <ion-icon name="cloud-offline-outline"></ion-icon>
-      </ion-button>
+      <app-auth-button></app-auth-button>
       <ion-title class="welcome-title">Welcome</ion-title>
       <ion-button class="options-btn" (click)="goToSettings()">
         <ion-icon name="settings-outline"></ion-icon>

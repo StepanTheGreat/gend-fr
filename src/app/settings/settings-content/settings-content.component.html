@@ -1,10 +1,9 @@
 <ion-col>
   <ion-item>
-    <ion-label>
+    <ion-toggle [checked]="isColorThemeLight()" (ionChange)="changeColorTheme()">
       <h1>Light theme: </h1>
       <p>Controls your app theme. Light or Dark?</p>
-    </ion-label>
-    <ion-toggle [checked]="isColorThemeLight()" (ionChange)="changeColorTheme()"></ion-toggle>
+    </ion-toggle>
   </ion-item>
   <ion-item>
     <ion-label>

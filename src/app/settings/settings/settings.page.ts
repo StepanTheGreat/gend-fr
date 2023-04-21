@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { Router } from '@angular/router';
 
+import { AuthButtonComponent } from 'src/app/auth/auth-button/auth-button.component';
 import { SettingsContentComponent } from "../settings-content/settings-content.component"
 
 @Component({
@@ -12,7 +13,7 @@ import { SettingsContentComponent } from "../settings-content/settings-content.c
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, SettingsContentComponent]
+  imports: [IonicModule, CommonModule, FormsModule, SettingsContentComponent, AuthButtonComponent]
 })
 export class SettingsPage {
 
