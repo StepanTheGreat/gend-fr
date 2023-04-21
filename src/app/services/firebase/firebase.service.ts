@@ -6,7 +6,6 @@ import * as firestore from 'firebase/firestore';
 
 import firebaseConfig from "firebase-config.json";
 import { Subject } from 'rxjs';
-import { error } from 'console';
 
 enum AuthStatus {
   LoggedOut,
@@ -24,7 +23,7 @@ type UserDataType = {
 })
 export class FirebaseService {
   signedInStatus: AuthStatus = AuthStatus.LoggedOut;
-  signedInStatusChange: Subject<number> = new Subject<number>();
+  signedInStatusChange: Subject<number> = new Subject();
 
   private userCredential?: auth.OAuthCredential;
   private userID: string = "";
@@ -61,6 +60,7 @@ export class FirebaseService {
           "scoreRight": currentData["scoreRight"],
           "scoreWrong": currentData["scoreWrong"],
         }
+        this.userDataChange.next(this.userData);
       } else {
         console.log("The document doesn't exist! Creating...");
         firestore.setDoc(docRef, 
@@ -81,6 +81,7 @@ export class FirebaseService {
 
     this.userData = newData;
 
+    console.log(this.userData);
     this.toSave += 1;
     if (this.toSave > 10) {
       this.toSave = 0;

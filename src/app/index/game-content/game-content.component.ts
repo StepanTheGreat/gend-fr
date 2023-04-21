@@ -5,6 +5,7 @@ import { GenderBtnComponent } from '../gender-btn/gender-btn.component';
 import { CommonModule } from '@angular/common';
 
 import { GrammarService } from 'src/app/services/grammar/grammar.service';
+import { ScoreService } from 'src/app/services/score/score.service';
 
 const DELAY: number = 1.5 * 2000;
 
@@ -32,7 +33,10 @@ export class GameContentComponent {
 
   @Output() scoreEvent = new EventEmitter<number>();
 
-  constructor(private grammarService: GrammarService) {
+  constructor(
+    private grammarService: GrammarService,
+    private scoreService: ScoreService
+  ) {
     this.generateWord();
   }
 
@@ -45,7 +49,7 @@ export class GameContentComponent {
     if (this.wordGender == gender) {
       this.buttonThemes[this.wordGender] = 1;
 
-      this.scoreEvent.emit(0);
+      this.scoreService.updateScore(0);
     } else {
       delay = DELAY;
       let spliced = this.grammarService.sliceWord(this.displayWord, this.wordGender);
@@ -55,7 +59,7 @@ export class GameContentComponent {
       this.buttonThemes = [2, 2, 2];
       this.buttonThemes[this.wordGender] = 1;
 
-      this.scoreEvent.emit(1);
+      this.scoreService.updateScore(1);
       
     }
     setTimeout(() => this.generateWord(), delay)

@@ -16,16 +16,19 @@ import { Router } from '@angular/router';
   imports: [IonicModule, GenderBtnComponent, GameContentComponent, AuthButtonComponent],
 })
 export class IndexPage {
-  bestScoreTxt: string = "0%"
   scoreTxt: string = "0%";
 
   constructor(
     private router: Router, 
     private scoreService: ScoreService,
-  ) {}
+  ) {
+    scoreService.scoreRatioChange.subscribe((newRatio) => {
+      this.scoreTxt = `${newRatio}%`
+    });
+  }
 
   onScoreEvent(scoreEvent: number) {
-    this.scoreTxt = this.scoreService.updateScore(scoreEvent);
+    this.scoreService.updateScore(scoreEvent);
   }
 
   goToSettings() {
