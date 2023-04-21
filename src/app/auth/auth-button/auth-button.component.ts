@@ -27,6 +27,6 @@ export class AuthButtonComponent {
   }
 
   signIn() {
-    this.firebaseService.firebaseAuth();
+    this.firebaseService.authenticate();
   }
 }

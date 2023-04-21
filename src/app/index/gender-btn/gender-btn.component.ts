@@ -26,6 +26,5 @@ export class GenderBtnComponent  {
 
   onClick() {
     this.checkGender.emit(this.gender);
-    console.log(this.correct);
   }
 }
