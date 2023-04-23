@@ -23,7 +23,9 @@ export class GameContentComponent {
   right: number = 0;
   wrong: number = 0;
 
-  buttonThemes: [number, number, number] = [0, 0, 0];
+  btnArticles: string[] = ["le", "la", "les", "un", "une", "des"];
+  btnArticleIndex: number = 0;
+  btnThemes: [number, number, number] = [0, 0, 0];
 
   active: boolean = true;
   displayWord: string = "";
@@ -47,7 +49,7 @@ export class GameContentComponent {
     this.active = false;
     let delay = 1000;
     if (this.wordGender == gender) {
-      this.buttonThemes[this.wordGender] = 1;
+      this.btnThemes[this.wordGender] = 1;
 
       this.scoreService.updateScore(0);
     } else {
@@ -56,8 +58,8 @@ export class GameContentComponent {
       this.displayWord = spliced[0];
       this.displayEnding = spliced[1];
       this.displayDescription = this.grammarService.grammarError(spliced[0], spliced[1], this.wordGender);
-      this.buttonThemes = [2, 2, 2];
-      this.buttonThemes[this.wordGender] = 1;
+      this.btnThemes = [2, 2, 2];
+      this.btnThemes[this.wordGender] = 1;
 
       this.scoreService.updateScore(1);
       
@@ -68,7 +70,7 @@ export class GameContentComponent {
   resetInfo() {
     this.displayDescription = "";
     this.displayEnding = "";
-    this.buttonThemes = [0, 0, 0];
+    this.btnThemes = [0, 0, 0];
     this.active = true;
   }
 
@@ -76,6 +78,7 @@ export class GameContentComponent {
     let wordAndGend = this.grammarService.generateWord();
     this.displayWord = wordAndGend[0];
     this.wordGender = wordAndGend[1];
+    this.btnArticleIndex = (this.btnArticleIndex + 3) % 6;
     this.resetInfo();
   }
 }

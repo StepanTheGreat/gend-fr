@@ -11,10 +11,6 @@ import { IonicModule } from '@ionic/angular';
 })
 
 export class GenderBtnComponent  {
-  genders: string[] = [
-    "le", "la", "les"
-  ];
-
   constructor() {
     this.gender = 0;
     this.correct = 0;

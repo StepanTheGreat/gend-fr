@@ -13,7 +13,7 @@
       *ngFor="let genderIndex of [0, 1, 2]" 
       (checkGender)="checkGender($event)"
       [gender]="genderIndex"
-      [correct]="buttonThemes[genderIndex]"
-    ></app-gender-btn>
+      [correct]="btnThemes[genderIndex]"
+    >{{ btnArticles[ btnArticleIndex+genderIndex ] }}</app-gender-btn>
   </ion-col>
 </ion-col>

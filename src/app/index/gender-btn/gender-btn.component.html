@@ -4,5 +4,7 @@
 }"
 (click)="onClick()"
 >
-  <ion-label>{{ genders[gender] }}</ion-label>
+  <ion-label>
+    <ng-content></ng-content>
+  </ion-label>
 </ion-button>
