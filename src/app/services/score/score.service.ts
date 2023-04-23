@@ -21,12 +21,16 @@ export class ScoreService {
   scoreRatioChange: Subject<number> = new Subject();
 
   constructor(private firebaseService: FirebaseService) { 
+    let userData = firebaseService.userData;
+    if (userData) {
+      this.scoreRight = userData.scoreRight;
+      this.scoreWrong = userData.scoreWrong;
+    }
+    
     firebaseService.userDataChange.subscribe((newData) => {
       this.scoreRight = newData.scoreRight;
       this.scoreWrong = newData.scoreWrong;
-      this.scoreRatioChange.next(
-        getRatio(this.scoreRight, this.scoreWrong)
-      );
+      this.updateRatioScore();
     });
   }
 
@@ -38,13 +42,16 @@ export class ScoreService {
       this.scoreWrong += 1;
     }
 
-    this.scoreRatioChange.next(
-      getRatio(this.scoreRight, this.scoreWrong)
-    );
+    this.updateRatioScore();
     this.firebaseService.updateData({
       "scoreRight": this.scoreRight,
       "scoreWrong": this.scoreWrong,
     });
+  }
+
+  updateRatioScore() {
+    this.scoreRatio = getRatio(this.scoreRight, this.scoreWrong);
+    this.scoreRatioChange.next(this.scoreRatio);
   }
 
   formatScore() {

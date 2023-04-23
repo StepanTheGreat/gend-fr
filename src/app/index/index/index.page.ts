@@ -22,6 +22,7 @@ export class IndexPage {
     private router: Router, 
     private scoreService: ScoreService,
   ) {
+    this.scoreTxt = `${scoreService.scoreRatio}%`;
     scoreService.scoreRatioChange.subscribe((newRatio) => {
       this.scoreTxt = `${newRatio}%`
     });

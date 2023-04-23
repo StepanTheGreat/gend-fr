@@ -7,6 +7,8 @@ import * as firestore from 'firebase/firestore';
 import firebaseConfig from "firebase-config.json";
 import { Subject } from 'rxjs';
 
+const POLL_INTERVAL: number = 30 * 1000;
+
 enum AuthStatus {
   LoggedOut,
   LoggingIn,
@@ -30,6 +32,8 @@ export class FirebaseService {
 
   toSave: number = 0;
 
+  changes: number = 0;
+
   app: FirebaseApp;
   db: firestore.Firestore;
   userData?: UserDataType;
@@ -47,6 +51,8 @@ export class FirebaseService {
     this.signedInStatusChange.subscribe((newStatus: number) => {
       this.signedInStatus = newStatus;
     });
+
+    setInterval(() => this.pollSave(), POLL_INTERVAL);
   }
 
   initData() {
@@ -62,13 +68,12 @@ export class FirebaseService {
         }
         this.userDataChange.next(this.userData);
       } else {
-        console.log("The document doesn't exist! Creating...");
-        firestore.setDoc(docRef, 
-          { 
-            "scoreRight": 0,
-            "scoreWrong": 0,
-          }
-        );
+        this.userData = {
+          "scoreRight": 0,
+          "scoreWrong": 0,
+        }
+        firestore.setDoc(docRef, this.userData);
+        this.userDataChange.next(this.userData);
       }
     }).catch(error => {
       console.log(error);
@@ -79,14 +84,33 @@ export class FirebaseService {
     if (!this.isAuthenticated()) return; 
     if (!this.userData) return;
 
+    this.changes += 1;
+    console.log(this.changes);
     this.userData = newData;
+  }
 
-    console.log(this.userData);
-    this.toSave += 1;
-    if (this.toSave > 10) {
-      this.toSave = 0;
-      this.saveData();
-    }
+  resetScore() {
+    if (!this.isAuthenticated()) return; 
+    if (!this.userData) return;
+
+    this.userData = { 
+      "scoreRight": 0,
+      "scoreWrong": 0,
+    };
+    this.userDataChange.next(this.userData);
+    this.saveData();
+  }
+
+  deleteAccount() {
+    if (!this.isAuthenticated()) return;
+
+    let docRef = firestore.doc(this.db, "users", this.userID);
+    firestore.deleteDoc(docRef).then(() => {
+      this.signOut();
+      console.log("Signing out...");
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   saveData() {
@@ -123,5 +147,25 @@ export class FirebaseService {
     if (this.userID == "") return false; 
 
     return true;
+  }
+
+  signOut() {
+    this.auth.signOut().then(() => {
+      this.signedInStatusChange.next(AuthStatus.LoggedOut);
+      this.userCredential = undefined;
+      this.userID = "";
+      this.userData = undefined;
+      this.userDataChange.next({ 
+        "scoreRight": 0,
+        "scoreWrong": 0,
+      });
+    });
+  }
+
+  pollSave() {
+    if (this.changes != 0) {
+      this.changes = 0;
+      this.saveData();
+    }
   }
 }

@@ -9,7 +9,7 @@
     <ion-item class="settings-item-stats">
       <ion-label class="ion-text-wrap">
         <h1>Your total score</h1>
-        <p>58% per 1000 guesses</p>
+        <p>{{scoreRatio}}% per {{guesses}} guesses</p>
       </ion-label>
     </ion-item>
 
@@ -18,7 +18,7 @@
         <h1>Reset score</h1> 
         <p>Resets all of your current score (Keeps only the best score).</p>
       </ion-label>
-      <ion-button color="warning" size="default">Reset score</ion-button>
+      <ion-button color="warning" size="default" (click)="resetScore()">Reset score</ion-button>
     </ion-item>
   </ion-item-group>
 
@@ -51,7 +51,12 @@
         <h1>Delete your account</h1>
         <p>Erases your account from the database.</p>
       </ion-label>
-      <ion-button color="danger" size="default">Delete my account</ion-button>
+      <ion-button color="danger" size="default" id="delete-account-alert">Delete my account</ion-button>
+      <ion-alert
+        trigger="delete-account-alert"
+        [header]="alertHeader"
+        [buttons]="alertButtons"
+      ></ion-alert>
     </ion-item>
   </ion-item-group>
 
