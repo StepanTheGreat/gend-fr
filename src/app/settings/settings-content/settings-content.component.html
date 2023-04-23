@@ -1,16 +1,58 @@
-<ion-col>
-  <ion-item>
-    <ion-toggle [checked]="isColorThemeLight()" (ionChange)="changeColorTheme()">
-      <h1>Light theme: </h1>
-      <p>Controls your app theme. Light or Dark?</p>
-    </ion-toggle>
-  </ion-item>
-  <ion-item>
-    <ion-label>
-      <h1>Reset score: </h1>
-      <p>Resets all of your current score.</p>
-      <p>(Keeps only the best score).</p>
-    </ion-label>
-    <ion-button color="danger" size="default">Reset score</ion-button>
-  </ion-item>
+<ion-col class="settings-col">
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-label>
+        <h1>Score</h1>
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item class="settings-item-stats">
+      <ion-label class="ion-text-wrap">
+        <h1>Your total score</h1>
+        <p>58% per 1000 guesses</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="settings-item-reset">
+      <ion-label class="ion-text-wrap">
+        <h1>Reset score</h1> 
+        <p>Resets all of your current score (Keeps only the best score).</p>
+      </ion-label>
+      <ion-button color="warning" size="default">Reset score</ion-button>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-label>
+        <h1>App experience</h1>
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item class="settings-item-theme">
+      <ion-toggle [checked]="isColorThemeLight()" (ionChange)="changeColorTheme()">
+        <ion-label class="ion-text-wrap">
+          <h1>Light theme</h1>
+          <p>Controls your app theme. Turn on to enable the light theme, or turn off to stay on the dark side.</p>
+        </ion-label>
+      </ion-toggle>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-label>
+        <h1>Account</h1>
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item class="settings-item-delete">
+      <ion-label class="ion-text-wrap">
+        <h1>Delete your account</h1>
+        <p>Erases your account from the database.</p>
+      </ion-label>
+      <ion-button color="danger" size="default">Delete my account</ion-button>
+    </ion-item>
+  </ion-item-group>
+
 </ion-col>
