@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
-import { initializeApp, FirebaseApp } from 'firebase/app';
+import { Injectable } from "@angular/core";
+import { initializeApp, FirebaseApp } from "firebase/app";
 
-import * as auth from 'firebase/auth';
-import * as firestore from 'firebase/firestore';
+import * as auth from "firebase/auth";
+import * as firestore from "firebase/firestore";
 
 import firebaseConfig from "firebase-config.json";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
+import { StorageService } from "../storage/storage.service";
 
 const POLL_INTERVAL: number = 30 * 1000;
 
@@ -42,7 +43,7 @@ export class FirebaseService {
   auth: auth.Auth;
   googleAuthProvider: auth.GoogleAuthProvider;
 
-  constructor() { 
+  constructor(private storageService: StorageService) { 
     this.app = initializeApp(firebaseConfig);
     this.auth = auth.getAuth(this.app);
     this.googleAuthProvider = new auth.GoogleAuthProvider();
@@ -85,7 +86,6 @@ export class FirebaseService {
     if (!this.userData) return;
 
     this.changes += 1;
-    console.log(this.changes);
     this.userData = newData;
   }
 

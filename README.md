@@ -4,11 +4,11 @@ Built using ionic, angular and firebase.
 
 TO-DO:
     + A basic app interface (buttons, words, score, etc);
-    = Random word generation
-    - Firebase backend initialization
-    - Login integration using Firebase
-    - Options
-    - Local data saving
+    + Random word generation
+    + Firebase backend initialization
+    + Login integration using Firebase
+    + Options
+    = Local data saving
     - Client-server score 
     - Cleanup
 

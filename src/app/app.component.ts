@@ -7,11 +7,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule],
+  imports: [IonicModule, CommonModule]
 })
 export class AppComponent implements OnInit {
 
-  ngOnInit() {
+  async ngOnInit() {
     document.body.setAttribute("color-theme", "dark");
   }
 

@@ -52,7 +52,7 @@ export class SettingsContentComponent {
   }
 
   resetScore() {
-    this.firebaseService.resetScore();
+    this.scoreService.resetScore();
   }
 
   deleteAccount() {

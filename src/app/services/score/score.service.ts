@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { FirebaseService } from '../firebase/firebase.service';
+import { FirebaseService } from "src/app/services/firebase/firebase.service";
+
+import { StorageService } from "src/app/services/storage/storage.service";
 
 import { Subject } from 'rxjs';
 
@@ -20,17 +22,29 @@ export class ScoreService {
   scoreRatio: number = 0;
   scoreRatioChange: Subject<number> = new Subject();
 
-  constructor(private firebaseService: FirebaseService) { 
+  constructor(
+    private firebaseService: FirebaseService,
+    private storageService: StorageService
+  ) { 
     let userData = firebaseService.userData;
     if (userData) {
       this.scoreRight = userData.scoreRight;
       this.scoreWrong = userData.scoreWrong;
+    } else {
+      this.storageService.get("userData").then(localData => {
+        if (localData) {
+          this.scoreRight = localData.scoreRight;
+          this.scoreWrong = localData.scoreWrong;
+          this.updateRatioScore();
+        }
+      });
     }
     
     firebaseService.userDataChange.subscribe((newData) => {
       this.scoreRight = newData.scoreRight;
       this.scoreWrong = newData.scoreWrong;
       this.updateRatioScore();
+      this.storageService.set("userData", newData);
     });
   }
 
@@ -43,10 +57,17 @@ export class ScoreService {
     }
 
     this.updateRatioScore();
-    this.firebaseService.updateData({
+    let newData = {
       "scoreRight": this.scoreRight,
       "scoreWrong": this.scoreWrong,
-    });
+    };
+    this.firebaseService.updateData(newData);
+    this.storageService.set("userData", newData);
+  }
+
+  resetScore() {
+    this.storageService.set("userData", {"scoreRight":0,"scoreWrong":0});
+    this.firebaseService.resetScore();
   }
 
   updateRatioScore() {
