@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
+import { take } from 'rxjs';
 
 type DictionaryType = {[key: number]: string[]};
 
@@ -9,13 +10,13 @@ const DEFAULT_DICT: DictionaryType = {
 
 const ENDINGS = [
   [
-      "age", "an", "c", "d", "eme", "g", "i", "in", "is", "iste",
-      "k", "l", "lon", "m", "non", "o", "ome", "r", "ron", "sme", 
-      "t", "taire", "ton", "tre", "u", "us"
+    "age", "an", "c", "d", "eme", "g", "i", "in", "is", "iste",
+    "k", "l", "lon", "m", "non", "o", "ome", "r", "ron", "sme", 
+    "t", "taire", "ton", "tre", "u", "us"
   ],
   [
-      "ade", "aison", "ce", "ee", "ie", "iere", "ine", "ion", "ite",
-      "lle", "se", "tte", "ude", "ure"
+    "ade", "aison", "ce", "ee", "ie", "iere", "ine", "ion", "ite",
+    "lle", "se", "tte", "ude", "ure"
   ],
   [
     "x", "aux", "ails", "ous"
@@ -32,8 +33,8 @@ export class GrammarService {
   constructor(
     private storageService: StorageService
   ) { 
-    this.storageService.loaded.subscribe((value) => {
-      if (value) {
+    this.storageService.loaded.pipe(take(2)).subscribe((loaded) => {
+      if (loaded) {
         this.dictionary = storageService.dictionary;
       }
     });
@@ -67,7 +68,7 @@ export class GrammarService {
   generateWord(): [string, number] {
     let gend: number = Math.round(Math.random()*2);
     let words = this.dictionary[gend];
-    let randIndex = Math.round(Math.random()*(words.length-1))
+    let randIndex = Math.round(Math.random()*(words.length-1));
     return [words[randIndex], gend];
   }
 }

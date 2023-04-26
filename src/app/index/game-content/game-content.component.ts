@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 
 import { GrammarService } from 'src/app/services/grammar/grammar.service';
 import { ScoreService } from 'src/app/services/score/score.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { first, take } from 'rxjs';
 
 const DELAY: number = 1.5 * 2000;
 
@@ -34,9 +36,14 @@ export class GameContentComponent {
 
   constructor(
     private grammarService: GrammarService,
-    private scoreService: ScoreService
+    private scoreService: ScoreService,
+    private storageService: StorageService
   ) {
-    this.generateWord();
+    this.storageService.loaded.pipe(take(2)).subscribe((loaded) => {
+      if (loaded) {
+        this.generateWord();
+      }
+    }); 
   }
 
   checkGender(gender: number) {

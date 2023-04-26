@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, GoogleAuthProvider, User, signInWithPopup, signOut } from '@angular/fire/auth';
-import { Firestore, setDoc, doc, getDoc} from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, getDoc, deleteDoc} from '@angular/fire/firestore';
 
 const DEFAULT_DATA = {
   "scoreRight": 0,
@@ -40,7 +40,21 @@ export class AuthService {
       if (!docSnapshot.exists()) {
         setDoc(userReference, DEFAULT_DATA);
       }
-    })
+    });
+  }
+
+  deleteAccount() {
+    if (this.user) {
+      const userReference = doc(this.afStore, `users/${this.user.uid}`);
+
+      getDoc(userReference).then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          deleteDoc(userReference).then(() => {
+            this.signOut();
+          });
+        }
+      });      
+    }
   }
 
 }

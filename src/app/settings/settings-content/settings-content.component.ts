@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ScoreService } from 'src/app/services/score/score.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 
@@ -28,6 +29,7 @@ export class SettingsContentComponent {
   constructor(
     private themeService: ThemeService,
     private scoreService: ScoreService,
+    private authService: AuthService
   ) {
     this.guesses = (this.scoreService.scoreRight+this.scoreService.scoreWrong);
     this.scoreRatio = this.scoreService.scoreRatio;
@@ -51,7 +53,7 @@ export class SettingsContentComponent {
   }
 
   deleteAccount() {
-    //this.firebaseService.deleteAccount();
+    this.authService.deleteAccount();
   }
 
 }

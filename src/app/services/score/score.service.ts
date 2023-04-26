@@ -42,9 +42,11 @@ export class ScoreService {
 
         this.snapshotSubscription = onSnapshot(docRef, (snapshot: any) => { 
           const data = snapshot.data();
-          this.scoreRight = data["scoreRight"];
-          this.scoreWrong = data["scoreWrong"];
-          this.updateRatioScore();
+          if (data) {
+            this.scoreRight = data["scoreRight"];
+            this.scoreWrong = data["scoreWrong"];
+            this.updateRatioScore();
+          }
         });
       } else {
         if (this.snapshotSubscription) this.snapshotSubscription();
