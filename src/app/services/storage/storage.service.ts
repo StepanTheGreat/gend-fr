@@ -3,11 +3,12 @@ import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
 import * as fstorage from "@angular/fire/storage";
 import * as istorage from '@ionic/storage';
+import { BehaviorSubject } from 'rxjs';
 
-type DictionaryType = {
-  feminine:  string[],
-  masculine: string[],
-  plural:    string[]
+type DictionaryType = {[key: number]: string[]};
+
+const DEFAULT_DICT: DictionaryType = {
+  0: [], 1: [], 2: []
 }
 
 type AppData = {
@@ -20,70 +21,62 @@ type AppData = {
 })
 export class StorageService {
 
-  appData?: AppData;
+  dictionary: DictionaryType = DEFAULT_DICT;
+  dictionaryVersion: string = "0.0.0";
+
+  loaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     private storage: istorage.Storage,
     private afStore: Firestore,
     private afStorage: fstorage.Storage
   ) {
-    this.storage.create().then((storage) => {
-      this.loadData();
+    this.storage.create().then(() => {
+      this.loadData().then(() => {
+        this.checkDictUpdates().then(() => {
+          this.loaded.next(true);
+        });
+      });
     });
   }
 
-  loadData() {
-    this.get("appData").then((appData) => {
-      if (appData) {
-        this.appData = appData;
-      } else {
-        this.initSTD();
-      }
-      this.checkDictUpdates(this.appData!);
-    });
+  async loadData() {
+    let dictionary = await this.get("dictionary");
+    if (dictionary) {
+      this.dictionary = dictionary;
+    }
+
+    let dictionaryVersion = await this.get("dictionaryVersion");
+    if (dictionaryVersion) {
+      this.dictionaryVersion = dictionaryVersion;
+    }
   }
 
-  initSTD() {
-    // Standard application initialisation
-    this.appData = {
-      dictVersion: "0.0.0",
-      dict: {
-        feminine: [],
-        masculine: [],
-        plural: []
-      }
-    };
-    this.set("appData", this.appData);
-  }
-
-  checkDictUpdates(appData: AppData) {
+  async checkDictUpdates() {
     const docRef = doc(this.afStore, "config/dictionary");
-    getDoc(docRef).then((docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const data = docSnapshot.data();
-        const version = data["version"];
+    let docSnapshot = await getDoc(docRef);
 
-        if (this.appData?.dictVersion != version) {
-          const dictRef = fstorage.ref(this.afStorage, "words.json");
-          fstorage.getBytes(dictRef).then((bytes) => {
-            const bstring = new TextDecoder().decode(bytes);
-            let parsedDict = JSON.parse(bstring);
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data();
+      const version = data["version"];
 
-            appData.dict = parsedDict;
-            appData.dictVersion = version;
+      if (this.dictionaryVersion != version) {
+        const dictRef = fstorage.ref(this.afStorage, "words.json");
+        const dictBytes = await fstorage.getBytes(dictRef);
+        const bstring = new TextDecoder().decode(dictBytes);
+        let parsedDict = JSON.parse(bstring);
 
-            this.appData = appData;
+        this.dictionary = parsedDict;
+        this.dictionaryVersion = version;
 
-            this.saveData();
-            console.log(parsedDict);            
-          });
-        }
+        await this.saveData();
       }
-    });
+    }
   }
 
-  saveData() {
-    this.set("appData", this.appData);
+  async saveData() {
+    await this.set("dictionaryVersion", this.dictionaryVersion);
+    await this.set("dictionary", this.dictionary);
   }
 
   async get(key: string): Promise<any> {

@@ -30,11 +30,11 @@
     </ion-item-divider>
 
     <ion-item class="settings-item-theme">
+      <ion-label class="ion-text-wrap">
+        <h1>Light theme</h1>
+        <p>Controls your app theme. Turn on to enable the light theme, or turn off to stay on the dark side.</p>
+      </ion-label>
       <ion-toggle [checked]="isColorThemeLight()" (ionChange)="changeColorTheme()">
-        <ion-label class="ion-text-wrap">
-          <h1>Light theme</h1>
-          <p>Controls your app theme. Turn on to enable the light theme, or turn off to stay on the dark side.</p>
-        </ion-label>
       </ion-toggle>
     </ion-item>
   </ion-item-group>

@@ -1,4 +1,11 @@
 import { Injectable } from '@angular/core';
+import { StorageService } from '../storage/storage.service';
+
+type DictionaryType = {[key: number]: string[]};
+
+const DEFAULT_DICT: DictionaryType = {
+  0: [], 1: [], 2: []
+}
 
 const ENDINGS = [
   [
@@ -13,35 +20,24 @@ const ENDINGS = [
   [
     "x", "aux", "ails", "ous"
   ]
-]
-
-const wordsArray = [
-  [
-    "homme", "jour", "temps", "soir", "pays", "travail", "enfant", "monde", "ami", "matin", "père", "frère", "fils", "chef", "mois", "état", "livre", "médecin", 
-    "professeur", "numéro", "week-end", "téléphone", "train", "bus", "avion", "homme d'affaires", "ordinateur", "jeu", "vin", "bus"
-  ],
-  [
-    "femme", "vie", "nuit", "maison", "ville", "histoire", "mère", "terre", "mer", "voix", "fleur", "voiture", "chaise", "école", "porte", "fenêtre", "table", 
-    "lettre", "clé", "pomme", "orange", "banane", "fraise", "thé", "café", "bière", "musique", "danse", "photo"
-  ],
-  [
-    "gens", "yeux", "mains", "pieds", "vacances", "étoiles", "vêtements", "cheveux", "amis", "parents", "enfants", "livres", "chambres", "maisons", "villes", 
-    "voitures", "ordinateurs", "trains", "avions", "bus", "vélos", "fruits", "légumes", "animaux", "oiseaux", "poissons", "émissions", "films", "journaux"
-  ]
-]
-
-const WORDS: {[gender: number]: string[]} = {
-  0: wordsArray[0],
-  1: wordsArray[1],
-  2: wordsArray[2],
-};
+];
 
 @Injectable({
   providedIn: 'root'
 })
 export class GrammarService {
 
-  constructor() { }
+  dictionary: DictionaryType = DEFAULT_DICT;
+
+  constructor(
+    private storageService: StorageService
+  ) { 
+    this.storageService.loaded.subscribe((value) => {
+      if (value) {
+        this.dictionary = storageService.dictionary;
+      }
+    });
+  }
 
   sliceWord(word: string, gender: number): [string, string] {
     let endingCollection = ENDINGS[gender];
@@ -70,7 +66,7 @@ export class GrammarService {
 
   generateWord(): [string, number] {
     let gend: number = Math.round(Math.random()*2);
-    let words = WORDS[gend];
+    let words = this.dictionary[gend];
     let randIndex = Math.round(Math.random()*(words.length-1))
     return [words[randIndex], gend];
   }
