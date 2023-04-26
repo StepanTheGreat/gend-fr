@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { FirebaseService } from 'src/app/services/firebase/firebase.service';
 import { ScoreService } from 'src/app/services/score/score.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 
@@ -29,18 +28,14 @@ export class SettingsContentComponent {
   constructor(
     private themeService: ThemeService,
     private scoreService: ScoreService,
-    private firebaseService: FirebaseService
   ) {
-    this.loadStats();
+    this.guesses = (this.scoreService.scoreRight+this.scoreService.scoreWrong);
+    this.scoreRatio = this.scoreService.scoreRatio;
+
     this.scoreService.scoreRatioChange.subscribe((newRatio: number) => {
       this.scoreRatio = newRatio;
       this.guesses = (this.scoreService.scoreRight+this.scoreService.scoreWrong);
-    })
-  }
-
-  loadStats() {
-    this.guesses = (this.scoreService.scoreRight+this.scoreService.scoreWrong);
-    this.scoreRatio = this.scoreService.scoreRatio;
+    });
   }
 
   isColorThemeLight(): boolean {
@@ -56,7 +51,7 @@ export class SettingsContentComponent {
   }
 
   deleteAccount() {
-    this.firebaseService.deleteAccount();
+    //this.firebaseService.deleteAccount();
   }
 
 }

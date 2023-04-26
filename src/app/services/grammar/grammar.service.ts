@@ -9,6 +9,9 @@ const ENDINGS = [
   [
       "ade", "aison", "ce", "ee", "ie", "iere", "ine", "ion", "ite",
       "lle", "se", "tte", "ude", "ure"
+  ],
+  [
+    "x", "aux", "ails", "ous"
   ]
 ]
 
@@ -41,9 +44,6 @@ export class GrammarService {
   constructor() { }
 
   sliceWord(word: string, gender: number): [string, string] {
-    if (gender != 0 && gender != 1) {
-        return [word, ""];
-    }
     let endingCollection = ENDINGS[gender];
     let result: [string, string] = [word, ""];
     endingCollection.forEach(suff => {
@@ -62,7 +62,7 @@ export class GrammarService {
     let txt = `The word \"${word+suffix}\" is ${genders[gender]}. `;
     if (suffix) {
         txt += `Pay closer attention to the suffix \"${suffix}\"`;
-    } else {
+    } else if (gender != 2){
         txt += `This is an exception.`;
     }   
     return txt;

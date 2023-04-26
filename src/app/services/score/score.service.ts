@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
-import { FirebaseService } from "src/app/services/firebase/firebase.service";
 
 import { StorageService } from "src/app/services/storage/storage.service";
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { Firestore, doc, getDoc, setDoc, Unsubscribe, onSnapshot } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 
 enum ScoreAction {
   RightAdd,
   WrongAdd,
   Reset,
   None
+}
+
+type userData = {
+  scoreRight: number,
+  scoreWrong: number
 }
 
 @Injectable({
@@ -19,55 +25,63 @@ export class ScoreService {
   scoreRight: number = 0;
   scoreWrong: number = 0;
 
+  snapshotSubscription?: Unsubscribe;
+
   scoreRatio: number = 0;
   scoreRatioChange: Subject<number> = new Subject();
 
   constructor(
-    private firebaseService: FirebaseService,
+    private afStore: Firestore,
+    private afAuth: Auth,
     private storageService: StorageService
   ) { 
-    let userData = firebaseService.userData;
-    if (userData) {
-      this.scoreRight = userData.scoreRight;
-      this.scoreWrong = userData.scoreWrong;
-    } else {
-      this.storageService.get("userData").then(localData => {
-        if (localData) {
-          this.scoreRight = localData.scoreRight;
-          this.scoreWrong = localData.scoreWrong;
+    this.afAuth.onAuthStateChanged((user) => {
+      if (user) {
+        const docRef = doc(this.afStore, `users/${user.uid}`);
+        if (this.snapshotSubscription) this.snapshotSubscription();
+
+        this.snapshotSubscription = onSnapshot(docRef, (snapshot: any) => { 
+          const data = snapshot.data();
+          this.scoreRight = data["scoreRight"];
+          this.scoreWrong = data["scoreWrong"];
           this.updateRatioScore();
-        }
-      });
-    }
-    
-    firebaseService.userDataChange.subscribe((newData) => {
-      this.scoreRight = newData.scoreRight;
-      this.scoreWrong = newData.scoreWrong;
-      this.updateRatioScore();
-      this.storageService.set("userData", newData);
+        });
+      } else {
+        if (this.snapshotSubscription) this.snapshotSubscription();
+        this.scoreRight = 0;
+        this.scoreWrong = 0;
+        this.updateRatioScore();
+      }
     });
   }
 
   updateScore(scoreEvent: number) {
-    let event: ScoreAction = scoreEvent;
-    if (event == ScoreAction.RightAdd) {
+    if (scoreEvent == ScoreAction.RightAdd) {
       this.scoreRight += 1;
-    } else if (event == ScoreAction.WrongAdd) {
+    } else if (scoreEvent == ScoreAction.WrongAdd) {
       this.scoreWrong += 1;
     }
 
     this.updateRatioScore();
-    let newData = {
+    this.setScore({
       "scoreRight": this.scoreRight,
       "scoreWrong": this.scoreWrong,
-    };
-    this.firebaseService.updateData(newData);
-    this.storageService.set("userData", newData);
+    });
   }
 
   resetScore() {
-    this.storageService.set("userData", {"scoreRight":0,"scoreWrong":0});
-    this.firebaseService.resetScore();
+    this.setScore({
+      "scoreRight": 0,
+      "scoreWrong": 0,
+    });
+  }
+
+  setScore(newScore: userData) {
+    let user = this.afAuth.currentUser;
+    if (user) {
+      const docRef = doc(this.afStore, `users/${user.uid}`);
+      setDoc(docRef, newScore);
+    }
   }
 
   updateRatioScore() {

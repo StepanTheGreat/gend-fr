@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Auth } from '@angular/fire/auth';
 
-import { FirebaseService } from 'src/app/services/firebase/firebase.service';
+enum SignInStatus{ LoggedOff, LoggedIn };
 
 @Component({
   selector: 'app-auth-button',
@@ -16,17 +18,26 @@ export class AuthButtonComponent {
   authStatus: number = 0;
   authIcons: string[] = [
     "cloud-offline-outline",
-    "cloud-upload-outline",
     "cloud-done-outline"
   ];
-  constructor(private firebaseService: FirebaseService) {
-    this.authStatus = firebaseService.signedInStatus;
-    firebaseService.signedInStatusChange.subscribe((newStatus: number) => {
-      this.authStatus = newStatus;
+  constructor(
+    private authService: AuthService,
+    private afAuth: Auth
+  ) {
+    this.afAuth.onAuthStateChanged((user) => {
+      if (user) {
+        this.authStatus = SignInStatus.LoggedIn;
+      } else {
+        this.authStatus = SignInStatus.LoggedOff;
+      }
     })
   }
 
-  signIn() {
-    this.firebaseService.authenticate();
+  signInAndOut() {
+    if (this.authStatus == SignInStatus.LoggedOff) {
+      this.authService.signIn();
+    } else {
+      this.authService.signOut();
+    }
   }
 }

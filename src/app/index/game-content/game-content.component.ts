@@ -20,9 +20,6 @@ const DELAY: number = 1.5 * 2000;
   ]
 })
 export class GameContentComponent {
-  right: number = 0;
-  wrong: number = 0;
-
   btnArticles: string[] = ["le", "la", "les", "un", "une", "des"];
   btnArticleIndex: number = 0;
   btnThemes: [number, number, number] = [0, 0, 0];

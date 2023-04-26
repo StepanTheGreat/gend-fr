@@ -7,24 +7,25 @@ import { AuthButtonComponent } from 'src/app/auth/auth-button/auth-button.compon
 import { ScoreService } from "src/app/services/score/score.service";
 
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-index',
   templateUrl: 'index.page.html',
   styleUrls: ['index.page.scss'],
   standalone: true,
-  imports: [IonicModule, GenderBtnComponent, GameContentComponent, AuthButtonComponent],
+  imports: [IonicModule, CommonModule, GenderBtnComponent, GameContentComponent, AuthButtonComponent],
 })
 export class IndexPage {
-  scoreTxt: string = "0%";
+  scoreRatio: number = 0;
 
   constructor(
     private router: Router, 
     private scoreService: ScoreService,
   ) {
-    this.scoreTxt = `${scoreService.scoreRatio}%`;
-    scoreService.scoreRatioChange.subscribe((newRatio) => {
-      this.scoreTxt = `${newRatio}%`
+    this.scoreRatio = this.scoreService.scoreRatio;
+    this.scoreService.scoreRatioChange.subscribe((newRatio: number) => {
+      this.scoreRatio = newRatio;
     });
   }
 
