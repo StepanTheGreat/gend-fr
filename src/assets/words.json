@@ -1,16 +1,7 @@
 [
-    [
-        "homme", "garçon", "père", "frère", "fils", "ami", "voisin", "chien", "chat", "cheval", "oiseau", "poisson", "arbre", "bateau", "avion", "train", 
-        "vélo", "ordinateur", "téléphone", "livre", "journal", "film", "jeu", "sport", "instrument", "artiste", "médecin", "professeur", "étudiant", "ingénieur", 
-        "avocat", "police", "soldat", "chef", "président", "roi", "dieu"
-    ],
-    [
-        "femme", "fille", "mère", "soeur", "fille", "amie", "voisine", "chienne", "chatte", "jument", "poule", "vache", "maison", "voiture", "moto", "poussette", 
-        "valise", "cuisine", "école", "université", "musique", "peinture", "sculpture", "littérature", "philosophie", "religion", "science", "histoire", "géographie", 
-        "économie", "politique", "société", "entreprise", "association", "administration", "armée", "royauté", "divinité"
-    ],
-    [
-        "ami", "voisin", "acteur", "étudiant", "chanteur", "danseur", "photographe", "journaliste", "écrivain", "chercheur", "volontaire", "bénévole", 
-        "travailleur", "citoyen", "touriste", "artiste", "professeur", "personne"
-    ]
+    "0homme", "0garçon", "0père", "0frère", "0fils", "0ami", "0voisin", "0chien", "0chat", "0cheval", "0oiseau", "0poisson", "0arbre", "0bateau", "0avion", 
+    "0train", "0vélo", "0ordinateur", "0téléphone", "0livre", "0journal", "0film", "0jeu", "0sport", "0instrument", "0artiste", "0médecin", "0professeur", 
+    "0étudiant", "0ingénieur", "0avocat", "0police", "0soldat", "0chef", "0président", "0roi", "0dieu", "1femme", "1fille", "1mère", "1soeur", "1fille", "1amie", "1voisine", "1chienne", "1chatte", "1jument", "1poule", "1vache", "1maison", "1voiture", "1moto", 
+    "1poussette", "1valise", "1cuisine", "1école", "1université", "1musique", "1peinture", "1sculpture", "1littérature", "1philosophie", "1religion", "1science", 
+    "1histoire", "1géographie", "1économie", "1politique", "1société", "1entreprise", "1association", "1administration", "1armée", "1royauté", "1divinité"
 ]

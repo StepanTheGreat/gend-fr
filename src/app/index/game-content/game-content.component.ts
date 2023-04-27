@@ -55,6 +55,7 @@ export class GameContentComponent {
     if (this.wordGender == gender) {
       this.btnThemes[this.wordGender] = 1;
 
+      this.grammarService.updateWord(this.displayWord, this.wordGender);
       this.scoreService.updateScore(0);
     } else {
       delay = DELAY;
