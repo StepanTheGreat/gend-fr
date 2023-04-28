@@ -2,16 +2,8 @@ import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import { take } from 'rxjs';
 
-type DictionaryType = string[];
-type LearningDictionaryType = {[key: string]: string};
-type LearnedDictionaryType = string[];
-
-const DEFAULT_DICT: DictionaryType = [];
-const DEFAULT_LEARNING_DICT: LearningDictionaryType = {};
-const DEFAULT_LEARNED_DICT: LearnedDictionaryType = [];
-
 const HOUR: number = 60 * 60000;
-const DAY: number = HOUR * 24;
+const DAY: number = 24 * HOUR;
 
 const ENDINGS = [
   [
@@ -41,9 +33,10 @@ enum WordArticle {
 })
 export class GrammarService {
 
-  dictionary: DictionaryType = DEFAULT_DICT;
-  learningDictionary: LearningDictionaryType = DEFAULT_LEARNING_DICT; // A container with explored but not entirely leanred words
-  learnedDictionary: LearnedDictionaryType = DEFAULT_LEARNED_DICT; // A container with fully learned words
+  dictionary: string[] = [];
+  learningDictionary: {[key: string]: string} = {}; // A container with explored but not entirely leanred words
+  learnedDictionary: string[] = []; // A container with fully learned words
+  activeKeysLearningDictionary: string[] = [];
 
   constructor(
     private storageService: StorageService
@@ -51,6 +44,9 @@ export class GrammarService {
     this.storageService.loaded.pipe(take(2)).subscribe((loaded) => {
       if (loaded) {
         this.dictionary = storageService.dictionary;
+        this.learningDictionary = storageService.learningDictionary;
+        this.learnedDictionary = storageService.learnedDictionary;
+        this.activeKeysLearningDictionary = storageService.activeKeysLearningDictionary;
       }
     });
   }
@@ -85,34 +81,32 @@ export class GrammarService {
     let words: string[] = [];
     let randIndex: number = 0;
 
-    let learnDict = Object.keys(this.learningDictionary);
-
-    if (Math.random() > 0.5 && learnDict.length) {
-      words = learnDict;
+    if (Math.random() < 0.35 && this.activeKeysLearningDictionary.length) {
+      words = this.activeKeysLearningDictionary;
     } else {
       words = this.dictionary;
     } 
     randIndex = Math.round(Math.random()*(words.length-1));
-    let word = words[randIndex];
-    let gend = parseInt(word[0]);
-    return [word.slice(1), gend];
+    return unpackWord(words[randIndex]);
   }
 
   updateWord(word: string, gender: number) {
-    word = ("" + gender) + word;
+    word = packWord(word, gender);
 
     if (this.dictionary.includes(word)) {
       this.dictionary.splice(this.dictionary.indexOf(word), 1);
 
-      const newDate = Date.now() + 3*DAY;
-      this.learningDictionary[word] = "0"+newDate; 
-    } else if (word in this.learningDictionary) {
-      let stageAndDate = this.learningDictionary[word];
-      let stage = parseInt(stageAndDate[0]) + 1;
+      this.learningDictionary[word] = packWordData(0, Date.now()+3*DAY); 
+    } else if (this.activeKeysLearningDictionary.includes(word)) {
+      this.activeKeysLearningDictionary.splice(this.activeKeysLearningDictionary.indexOf(word), 1);
 
-      if (stage < 4) {
+      let stageAndDate = unpackWordData(this.learningDictionary[word]);
+      let stage = stageAndDate[0]+1;
+      
+      if (stage < 3) {
         let days = [3, 7, 21][stage];
-        this.learningDictionary[word] = ( ("" + stage) + (Date.now() + days*DAY));
+        console.log(days);
+        this.learningDictionary[word] = packWordData(stage, Date.now()+days*DAY);
       } else {
         delete this.learningDictionary[word];
         this.learnedDictionary.push(word);
@@ -123,10 +117,34 @@ export class GrammarService {
 
   saveWords() {
     this.storageService.set("dictionary", this.dictionary);
-    console.log(this.learningDictionary);
     this.storageService.set("learningDictionary", this.learningDictionary);
     this.storageService.set("learnedDictionary", this.learnedDictionary);
   }
+}
+
+// Packed word data is a storage-efficient combination of word stage and date to review the word.
+// Packed words on the other hand, just combine words gender and the word itself in compact way.
+
+function unpackWordData(wordData: string): [number, number] {
+  return [
+    parseInt(wordData[0]),
+    parseInt(wordData.slice(1))
+  ]
+}
+
+function packWordData(wordStage: number, wordDate: number): string {
+  return (""+wordStage) + wordDate;
+}
+
+function packWord(word: string, gender: number): string {
+  return ("" + gender) + word;
+}
+
+function unpackWord(word: string): [string, number] {
+  return [
+    word.slice(1),
+    parseInt(word[0])
+  ]
 }
 
 // The generation and word-picking process.

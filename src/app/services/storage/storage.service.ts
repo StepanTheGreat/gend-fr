@@ -5,22 +5,15 @@ import * as fstorage from "@angular/fire/storage";
 import * as istorage from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 
-type DictionaryType = string[];
-type LearningDictionaryType = {[key: string]: string};
-type LearnedDictionaryType = string[];
-
-const DEFAULT_DICT: DictionaryType = [];
-const DEFAULT_LEARNING_DICT: LearningDictionaryType = {};
-const DEFAULT_LEARNED_DICT: LearnedDictionaryType = [];
-
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
 
-  dictionary: DictionaryType = DEFAULT_DICT; // A container with lots of new words TO explore
-  learningDictionary: LearningDictionaryType = DEFAULT_LEARNING_DICT; // A container with explored but not entirely leanred words
-  learnedDictionary: LearnedDictionaryType = DEFAULT_LEARNED_DICT; // A container with fully learned words
+  dictionary: string[] = []; // A container with lots of new words TO explore
+  learningDictionary: {[key: string]: string} = {}; // A container with explored but not entirely leanred words
+  activeKeysLearningDictionary: string[] = [];
+  learnedDictionary: string[] = []; // A container with fully learned words
   dictionaryVersion: string = "0.0.0";
 
   loaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -48,6 +41,15 @@ export class StorageService {
     let learningDictionary = await this.get("learningDictionary");
     if (learningDictionary) {
       this.learningDictionary = learningDictionary;
+      const day = 24 * 60 * 60000;
+      const currentDate = Date.now() + 22*day;
+      for (let [key, value] of Object.entries(this.learningDictionary)) {
+        let wordDate = parseInt(value.slice(1));
+        if (currentDate >= wordDate) {
+          this.activeKeysLearningDictionary.push(key);
+        }
+      }
+      console.log(this.activeKeysLearningDictionary);
     }
 
     let learnedDictionary = await this.get("learnedDictionary");
@@ -81,7 +83,7 @@ export class StorageService {
     }
   }
 
-  async mergeDicts(newDict: DictionaryType) {
+  async mergeDicts(newDict: string[]) {
     newDict.forEach(word => {
       if (
         (word in this.learnedDictionary) ||
