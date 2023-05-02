@@ -3,7 +3,7 @@ export type DictType = {
         feminine: boolean,
         plural: boolean,
         dualAnswer: boolean,
-        freq: number,
+        frequency: number,
         learnStage: number,
         showAgainAt: number
     }
@@ -13,7 +13,7 @@ export interface WordData {
     feminine: boolean,
     plural: boolean,
     dualAnswer: boolean,
-    freq: number
+    frequency: number
 }
 
 export enum ScoreAction {

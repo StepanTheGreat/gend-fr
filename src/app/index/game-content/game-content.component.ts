@@ -76,10 +76,9 @@ export class GameContentComponent {
     feminine: false,
     plural: false,
     dualAnswer: false,
-    freq: 0.0
+    frequency: 0.0
   };
   wordEnding: string = "";
-  mistakeDescription: string = "";
 
   constructor(
     private grammarService: GrammarService,
@@ -108,7 +107,6 @@ export class GameContentComponent {
       let [word, wordEnding] = this.grammarService.sliceWord(this.word, this.wordData);
       this.word = word;
       this.wordEnding = wordEnding;
-      this.mistakeDescription = this.grammarService.grammarError(word, wordEnding, this.wordData);
 
       this.gameButtons.forEach((button) => {
         if (this.correctButtons.includes(button.btnIndex)) {
@@ -126,7 +124,6 @@ export class GameContentComponent {
   }
 
   resetDisplayText() {
-    this.mistakeDescription = "";
     this.wordEnding = "";
     this.gameButtons.forEach((_, btnIndex) => {
       this.gameButtons[btnIndex].btnTheme = ButtonTheme.Default;

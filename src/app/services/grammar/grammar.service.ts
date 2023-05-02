@@ -3,12 +3,12 @@ import { StorageService } from '../storage/storage.service';
 import { take } from 'rxjs';
 
 import { DictType, WordData } from "src/app/lib/types";
-import { randomChoice } from 'src/app/lib/utils';
+import { randomChoice, weightedRandomWord } from 'src/app/lib/utils';
 
 const HOUR: number = 60 * 60000;
 const DAY: number = 24 * HOUR;
 
-const ENDINGS = [
+const ENDINGS: string[][] = [
   [
     "age", "an", "c", "d", "eme", "g", "i", "in", "is", "iste",
     "k", "l", "lon", "m", "non", "o", "ome", "r", "ron", "sme", 
@@ -23,13 +23,19 @@ const ENDINGS = [
   ]
 ];
 
+const STAGE_WAITING: {[stage: number]: number} = {
+  1: DAY,
+  2: 3*DAY,
+  3: 7*DAY,
+  4: 21*DAY
+};
+
 @Injectable({
   providedIn: 'root'
 })
 export class GrammarService {
 
   dictionary: DictType = {};
-  activeDictionary: DictType = {};
 
   constructor(
     private storageService: StorageService
@@ -55,31 +61,28 @@ export class GrammarService {
     return result;
   }
 
-  grammarError(word: string, suffix: string, wordData: WordData): string {
-    const gender = wordDataToIndex(wordData);
-    let genders = ["masculine", "feminine", "plural"];
-    let txt = `The word \"${word+suffix}\" is ${genders[gender]}. `;
-    if (suffix) {
-        txt += `Pay closer attention to the suffix \"${suffix}\"`;
-    } else if (gender != 2){
-        txt += `This is an exception.`;
-    }
-    txt = "Temporarily doesn't work";
-    return txt;
-  }
-
   generateWord(): [string, WordData] {
-    let allWords = Object.keys(this.dictionary);
-    let word = randomChoice(allWords);
+    let currentDate = Date.now();
+    let avaiableWords = [];
+    for(const [word, wordData] of Object.entries(this.dictionary)) {
+      if (currentDate > wordData.showAgainAt) {
+        avaiableWords.push(word);
+      }
+    }
+    let word = weightedRandomWord(avaiableWords, this.dictionary);
+    let wordData = this.dictionary[word];
  
-    return [word, this.dictionary[word]];
+    return [word, wordData];
   }
 
   updateWordStage(word: string) {
     if (word in this.dictionary) {
-      console.log("Updating the word...");
+      let dictWord = this.dictionary[word];
+
+      dictWord.learnStage += 1;
+      dictWord.showAgainAt = Date.now() + STAGE_WAITING[dictWord.learnStage];
     }
-    
+    this.saveWords();
   }
 
   saveWords() {
@@ -88,8 +91,11 @@ export class GrammarService {
 }
 
 function wordDataToIndex(data: WordData) {
-  const numGender = ((+data.plural) << 1) & (+data.feminine);
-  return Math.min(numGender, 3);
+  if (data.plural) {
+    return 2;
+  } else {
+    return (data.feminine) ? 1 : 0;
+  }
 }
 
 // Word structure:

@@ -71,7 +71,7 @@ export class StorageService {
           feminine: wordData["feminine"],
           plural: wordData["plural"],
           dualAnswer: wordData["dualAnswer"],
-          freq: wordData["freq"],
+          frequency: wordData["frequency"],
           learnStage: 0,
           showAgainAt: 0,
         };
