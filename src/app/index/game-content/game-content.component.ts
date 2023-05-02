@@ -7,9 +7,37 @@ import { CommonModule } from '@angular/common';
 import { GrammarService } from 'src/app/services/grammar/grammar.service';
 import { ScoreService } from 'src/app/services/score/score.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { first, take } from 'rxjs';
+import { take } from 'rxjs';
 
-const DELAY: number = 1.5 * 2000;
+import { ScoreAction, WordData } from 'src/app/lib/types';
+import { randomChoice } from "src/app/lib/utils";
+
+const COOLDOWN_WON: number = 1000;
+const COOLDOWN_LOST: number = 2500;
+
+const ARTICLES: {[key: string]: [string, string]} = {
+  "masculine": ["le", "un"],
+  "feminine":  ["la", "une"],
+  "plural":    ["les", "des"]
+};
+
+enum ButtonTheme {
+  Default,
+  Correct,
+  Invalid
+}
+
+enum ButtonIndex {
+  Masculine,
+  Feminine,
+  Plural
+}
+
+type GenderButton = {
+  articles: string[],
+  btnTheme: number,
+  btnIndex: number
+}
 
 @Component({
   selector: 'app-game-content',
@@ -22,17 +50,36 @@ const DELAY: number = 1.5 * 2000;
   ]
 })
 export class GameContentComponent {
-  btnArticles: string[] = ["le", "la", "les", "un", "une", "des"];
-  btnArticleIndex: number = 0;
-  btnThemes: [number, number, number] = [0, 0, 0];
+  articleIndex = 0;
+  gameButtons: GenderButton[] = [
+    {
+      articles: ARTICLES["masculine"],
+      btnTheme: ButtonTheme.Default,
+      btnIndex: ButtonIndex.Masculine
+    },
+    {
+      articles: ARTICLES["feminine"],
+      btnTheme: ButtonTheme.Default,
+      btnIndex: ButtonIndex.Feminine
+    },
+    {
+      articles: ARTICLES["plural"],
+      btnTheme: ButtonTheme.Default,
+      btnIndex: ButtonIndex.Plural
+    },
+  ];
+  correctButtons: number[] = [];
 
-  active: boolean = true;
-  displayWord: string = "";
-  displayEnding: string = "";
-  displayDescription: string = "";
-  wordGender: number = 0;
-
-  @Output() scoreEvent = new EventEmitter<number>();
+  interactable: boolean = true;
+  word: string = "";
+  wordData: WordData = {
+    feminine: false,
+    plural: false,
+    dualAnswer: false,
+    freq: 0.0
+  };
+  wordEnding: string = "";
+  mistakeDescription: string = "";
 
   constructor(
     private grammarService: GrammarService,
@@ -46,44 +93,71 @@ export class GameContentComponent {
     }); 
   }
 
-  checkGender(gender: number) {
-    if (!this.active) {
-      return;
-    }
-    this.active = false;
-    let delay = 1000;
-    if (this.wordGender == gender) {
-      this.btnThemes[this.wordGender] = 1;
+  checkGender(buttonIndex: number) {
+    if (!this.interactable) return;
+    const correctAnswer = this.correctButtons.includes(buttonIndex);
 
-      this.grammarService.updateWord(this.displayWord, this.wordGender);
-      this.scoreService.updateScore(0);
+    this.interactable = false;
+    if (correctAnswer) {
+      this.gameButtons[buttonIndex].btnTheme = ButtonTheme.Correct;
+
+      this.grammarService.updateWordStage(this.word);
+      this.scoreService.updateScore(ScoreAction.RightAdd);
+
     } else {
-      delay = DELAY;
-      let spliced = this.grammarService.sliceWord(this.displayWord, this.wordGender);
-      this.displayWord = spliced[0];
-      this.displayEnding = spliced[1];
-      this.displayDescription = this.grammarService.grammarError(spliced[0], spliced[1], this.wordGender);
-      this.btnThemes = [2, 2, 2];
-      this.btnThemes[this.wordGender] = 1;
+      let [word, wordEnding] = this.grammarService.sliceWord(this.word, this.wordData);
+      this.word = word;
+      this.wordEnding = wordEnding;
+      this.mistakeDescription = this.grammarService.grammarError(word, wordEnding, this.wordData);
 
-      this.scoreService.updateScore(1);
-      
+      this.gameButtons.forEach((button) => {
+        if (this.correctButtons.includes(button.btnIndex)) {
+          button.btnTheme = ButtonTheme.Correct;
+        } else {
+          button.btnTheme = ButtonTheme.Invalid;
+        }
+      });
+
+      this.scoreService.updateScore(ScoreAction.WrongAdd); 
     }
-    setTimeout(() => this.generateWord(), delay)
+
+    const gameCooldown = (correctAnswer) ? COOLDOWN_WON : COOLDOWN_LOST;
+    setTimeout(() => this.generateWord(), gameCooldown);
   }
 
-  resetInfo() {
-    this.displayDescription = "";
-    this.displayEnding = "";
-    this.btnThemes = [0, 0, 0];
-    this.active = true;
+  resetDisplayText() {
+    this.mistakeDescription = "";
+    this.wordEnding = "";
+    this.gameButtons.forEach((_, btnIndex) => {
+      this.gameButtons[btnIndex].btnTheme = ButtonTheme.Default;
+    });
+    this.interactable = true;
   }
 
   generateWord() {
-    let wordAndGend = this.grammarService.generateWord();
-    this.displayWord = wordAndGend[0];
-    this.wordGender = wordAndGend[1];
-    this.btnArticleIndex = (this.btnArticleIndex + 3) % 6;
-    this.resetInfo();
+    const [word, wordData] = this.grammarService.generateWord();
+
+    this.word = word;
+    this.wordData = wordData;
+    this.setupButtons();
+    this.resetDisplayText();
+  }
+
+  setupButtons() {
+    this.articleIndex = Math.round(Math.random());
+    this.correctButtons = [];
+
+    if (this.wordData.plural) {
+      this.correctButtons.push(ButtonIndex.Plural);
+    }
+
+    if (!this.wordData.plural || this.wordData.dualAnswer) {
+      if (this.wordData.feminine) {
+        this.correctButtons.push(ButtonIndex.Feminine);
+      } else {
+        this.correctButtons.push(ButtonIndex.Masculine);
+      }
+    }
+
   }
 }

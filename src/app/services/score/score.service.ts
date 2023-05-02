@@ -2,21 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { StorageService } from "src/app/services/storage/storage.service";
 
-import { Observable, Subject } from 'rxjs';
-import { Firestore, doc, getDoc, setDoc, Unsubscribe, onSnapshot } from '@angular/fire/firestore';
+import { Subject } from 'rxjs';
+import { Firestore, doc, setDoc, Unsubscribe, onSnapshot } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 
-enum ScoreAction {
-  RightAdd,
-  WrongAdd,
-  Reset,
-  None
-}
-
-type userData = {
-  scoreRight: number,
-  scoreWrong: number
-}
+import { userData, ScoreAction } from 'src/app/lib/types';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +47,7 @@ export class ScoreService {
     });
   }
 
-  updateScore(scoreEvent: number) {
+  updateScore(scoreEvent: ScoreAction) {
     if (scoreEvent == ScoreAction.RightAdd) {
       this.scoreRight += 1;
     } else if (scoreEvent == ScoreAction.WrongAdd) {

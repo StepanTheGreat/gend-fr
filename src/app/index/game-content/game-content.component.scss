@@ -15,6 +15,10 @@
     max-width: 80%;
 }
 
+div.mistake-description {
+    height: 42px;
+}
+
 .current-word > *, .mistake-description > * {
     text-align: center;
     transition-property: opacity;

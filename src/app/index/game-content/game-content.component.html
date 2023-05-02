@@ -1,19 +1,20 @@
 <ion-col class="game-content">
   <ion-text class="mistake-description">
-    <p class="mistake-description-text">
-      {{displayDescription}}
-    </p>
+    <div class="mistake-description">
+      <p class="mistake-description-text">
+        {{mistakeDescription}}
+      </p>
+    </div>
   </ion-text>
   <ion-text class="current-word">
-    <h1 class="current-word-text">{{displayWord}}<span class="current-word-ending">{{displayEnding}}</span></h1>
+    <h1 class="current-word-text">{{word}}<span class="current-word-ending">{{wordEnding}}</span></h1>
   </ion-text>
   <ion-col class="gender-btns">
-    <!-- Three different buttons -->
-    <app-gender-btn
-      *ngFor="let genderIndex of [0, 1, 2]" 
-      (checkGender)="checkGender($event)"
-      [gender]="genderIndex"
-      [correct]="btnThemes[genderIndex]"
-    >{{ btnArticles[ btnArticleIndex+genderIndex ] }}</app-gender-btn>
+    <app-gender-btn 
+      *ngFor="let button of gameButtons"
+      [btnIndex]="button.btnIndex"
+      [btnTheme]="button.btnTheme"
+      (checkGender)="checkGender(button.btnIndex)"
+    >{{button.articles[articleIndex]}}</app-gender-btn>
   </ion-col>
 </ion-col>

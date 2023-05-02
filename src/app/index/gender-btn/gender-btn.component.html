@@ -1,8 +1,9 @@
-<ion-button [ngClass]="{
-  'correct-success': correct == 1,
-  'correct-wrong': correct == 2
-}"
-(click)="onClick()"
+<ion-button 
+  [ngClass]="{
+    'theme-success': btnTheme == 1,
+    'theme-wrong': btnTheme == 2
+  }"
+  (click)="onClick()"
 >
   <ion-label>
     <ng-content></ng-content>
