@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { IndexPage } from './index/index/index.page';
-import { SettingsPage } from './settings/settings/settings.page';
+import { IndexPage } from './index/index-page/index.page';
+import { SettingsPage } from './settings/settings-page/settings.page';
+import { RegistrationPage } from "src/app/registration/registration-page/registration.page";
 
 export const routes: Routes = [
   {
@@ -9,5 +10,8 @@ export const routes: Routes = [
   },
   {
     path: 'settings', component: SettingsPage
+  },
+  {
+    path: 'registration', component: RegistrationPage
   },
 ];

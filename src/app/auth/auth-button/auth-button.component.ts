@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Auth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 enum SignInStatus{ LoggedOff, LoggedIn };
 
@@ -22,7 +23,8 @@ export class AuthButtonComponent {
   ];
   constructor(
     private authService: AuthService,
-    private afAuth: Auth
+    private afAuth: Auth,
+    private router: Router
   ) {
     this.afAuth.onAuthStateChanged((user) => {
       if (user) {
@@ -34,10 +36,11 @@ export class AuthButtonComponent {
   }
 
   signInAndOut() {
-    if (this.authStatus == SignInStatus.LoggedOff) {
-      this.authService.signIn();
-    } else {
-      this.authService.signOut();
-    }
+    this.router.navigate(["registration"]);
+    // if (this.authStatus == SignInStatus.LoggedOff) {
+    //   this.authService.signIn();
+    // } else {
+    //   this.authService.signOut();
+    // }
   }
 }

@@ -16,14 +16,12 @@ export class ScoreService {
   scoreWrong: number = 0;
 
   snapshotSubscription?: Unsubscribe;
-
   scoreRatio: number = 0;
   scoreRatioChange: Subject<number> = new Subject();
 
   constructor(
     private afStore: Firestore,
     private afAuth: Auth,
-    private storageService: StorageService
   ) { 
     this.afAuth.onAuthStateChanged((user) => {
       if (user) {

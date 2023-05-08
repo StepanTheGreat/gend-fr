@@ -14,7 +14,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: 'index.page.html',
   styleUrls: ['index.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, GenderBtnComponent, GameContentComponent, AuthButtonComponent],
+  imports: [
+    IonicModule, CommonModule, GenderBtnComponent, GameContentComponent, AuthButtonComponent,
+  ],
 })
 export class IndexPage {
   scoreRatio: number = 0;

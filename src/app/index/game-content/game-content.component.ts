@@ -10,10 +10,10 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 import { take } from 'rxjs';
 
 import { ScoreAction, WordData } from 'src/app/lib/types';
-import { randomChoice } from "src/app/lib/utils";
 
 const COOLDOWN_WON: number = 1000;
 const COOLDOWN_LOST: number = 2500;
+const WORDS_PER_DAY: number = 2;
 
 const ARTICLES: {[key: string]: [string, string]} = {
   "masculine": ["le", "un"],
@@ -50,7 +50,17 @@ type GenderButton = {
   ]
 })
 export class GameContentComponent {
-  articleIndex = 0;
+  articleIndex: number = 0;
+
+  shownCongratulations: boolean = false;
+  alertOpen: boolean = false;
+  alertHeader: string = "Well done! You can take a rest now and learn more tomorrow!";
+  alertButtons = [
+    {
+      text: "Great",
+      handler: () => this.alertOpen = false,
+    },
+  ];
   gameButtons: GenderButton[] = [
     {
       articles: ARTICLES["masculine"],
@@ -83,7 +93,7 @@ export class GameContentComponent {
   constructor(
     private grammarService: GrammarService,
     private scoreService: ScoreService,
-    private storageService: StorageService
+    private storageService: StorageService,
   ) {
     this.storageService.loaded.pipe(take(2)).subscribe((loaded) => {
       if (loaded) {
@@ -103,6 +113,11 @@ export class GameContentComponent {
       this.grammarService.updateWordStage(this.word);
       this.scoreService.updateScore(ScoreAction.RightAdd);
 
+      if (this.grammarService.learnedWords >= WORDS_PER_DAY && !this.shownCongratulations) {
+        this.shownCongratulations = true;
+        this.alertOpen = true;
+      }
+
     } else {
       let [word, wordEnding] = this.grammarService.sliceWord(this.word, this.wordData);
       this.word = word;
@@ -115,7 +130,6 @@ export class GameContentComponent {
           button.btnTheme = ButtonTheme.Invalid;
         }
       });
-
       this.scoreService.updateScore(ScoreAction.WrongAdd); 
     }
 

@@ -15,7 +15,6 @@ export class StorageService {
   dictionary: DictType = {};
   activeDictionary: DictType = {};
   dictionaryVersion: string = "0.0.0";
-
   loaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(

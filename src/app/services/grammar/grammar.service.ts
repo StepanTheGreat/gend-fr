@@ -36,6 +36,9 @@ const STAGE_WAITING: {[stage: number]: number} = {
 export class GrammarService {
 
   dictionary: DictType = {};
+  progresslessMode: boolean = false;
+  avaiableWords: number = 0;
+  learnedWords: number = 0;
 
   constructor(
     private storageService: StorageService
@@ -43,6 +46,10 @@ export class GrammarService {
     this.storageService.loaded.pipe(take(2)).subscribe((loaded) => {
       if (loaded) {
         this.dictionary = storageService.dictionary;
+        this.avaiableWords = this.checkAvaiableWords();
+        if (this.avaiableWords == 0) {
+          this.progresslessMode = true;
+        }
       }
     });
   }
@@ -61,14 +68,25 @@ export class GrammarService {
     return result;
   }
 
+  checkAvaiableWords(): number {
+    let wordsCounter = 0;
+    let currentDate = Date.now();
+    for(const [_, wordData] of Object.entries(this.dictionary)) {
+      if (currentDate > wordData.showAgainAt) {
+        wordsCounter += 1;
+      }
+    }
+    return wordsCounter;
+  }
+
   generateWord(): [string, WordData] {
     let currentDate = Date.now();
     let avaiableWords = [];
     for(const [word, wordData] of Object.entries(this.dictionary)) {
-      if (currentDate > wordData.showAgainAt) {
+      if (this.progresslessMode || currentDate > wordData.showAgainAt) {
         avaiableWords.push(word);
       }
-    }
+    } 
     let word = weightedRandomWord(avaiableWords, this.dictionary);
     let wordData = this.dictionary[word];
  
@@ -76,12 +94,19 @@ export class GrammarService {
   }
 
   updateWordStage(word: string) {
+    if (this.progresslessMode) return;
     if (word in this.dictionary) {
       let dictWord = this.dictionary[word];
 
       dictWord.learnStage += 1;
       dictWord.showAgainAt = Date.now() + STAGE_WAITING[dictWord.learnStage];
     }
+    this.avaiableWords -= 1;
+    if (this.avaiableWords <= 0) {
+      this.progresslessMode = true;
+    }
+    this.learnedWords += 1;
+
     this.saveWords();
   }
 
