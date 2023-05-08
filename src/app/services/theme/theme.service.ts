@@ -8,12 +8,14 @@ export class ThemeService {
   constructor() { }
 
   isColorThemeLight(): boolean {
-    return document.body.getAttribute("color-theme") != "dark";
+    return !document.body.classList.contains("dark")
   }
 
   changeColorTheme() {
-    let attr = document.body.getAttribute("color-theme");
-    let theme = (attr == "dark") ? "light" : "dark";
-    document.body.setAttribute("color-theme", theme);
+    if (this.isColorThemeLight()) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
   }
 }

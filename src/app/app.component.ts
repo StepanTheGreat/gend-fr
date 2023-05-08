@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   auth: Auth = inject(Auth);
 
   async ngOnInit() {
-    document.body.setAttribute("color-theme", "dark");
+    document.body.classList.add("dark");
   }
 
   public environmentInjector = inject(EnvironmentInjector);

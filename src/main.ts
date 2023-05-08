@@ -11,13 +11,26 @@ import firebaseConfig from "firebase-config.json";
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideAuth, getAuth, initializeAuth, indexedDBLocalPersistence, Auth } from '@angular/fire/auth';
 import * as fstorage from '@angular/fire/storage';
 import * as istorage from '@ionic/storage-angular';
+import { Capacitor } from '@capacitor/core';
 
 if (environment.production) {
   enableProdMode();
 }
+
+// let app = initializeApp(firebaseConfig);
+// let auth: Auth;
+// if (Capacitor.isNativePlatform()) {
+//   console.error("ON CAPACITOR!!!");
+//   auth = initializeAuth(app, {
+//     persistence: indexedDBLocalPersistence,
+//   });
+// } else {
+//   auth = getAuth();
+// }
+
 
 bootstrapApplication(AppComponent, {
   providers: [

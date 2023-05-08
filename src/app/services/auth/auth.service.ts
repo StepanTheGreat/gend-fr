@@ -16,14 +16,24 @@ export class AuthService {
   constructor(private afAuth: Auth, private afStore: Firestore) {
     this.afAuth.onAuthStateChanged(newUser => {
       this.user = (newUser) ? newUser : undefined;
+      if (newUser) {
+        this.initData(newUser);
+      }
     });
   }
 
   signIn() {
-    const provider = new GoogleAuthProvider()
+    // GoogleAuth.signIn().then((user) => {
+    //   //@ts-expect-error
+    //   this.afAuth.updateCurrentUser(user);
+    // });
+    // FirebaseAuthentication.signInWithGoogle().then((result) => {
+    //   //@ts-expect-error
+    //   this.afAuth.updateCurrentUser(result.user);
+    // });
+    const provider = new GoogleAuthProvider();
     signInWithPopup(this.afAuth, provider).then((credential) => {
       this.afAuth.updateCurrentUser(credential.user);
-      this.initData(credential.user);
     });
   }
 
