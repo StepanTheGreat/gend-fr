@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, GoogleAuthProvider, User, signInWithPopup, signOut } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, User, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
 import { Firestore, setDoc, doc, getDoc, deleteDoc} from '@angular/fire/firestore';
 
 const DEFAULT_DATA = {
@@ -33,6 +33,12 @@ export class AuthService {
     // });
     const provider = new GoogleAuthProvider();
     signInWithPopup(this.afAuth, provider).then((credential) => {
+      this.afAuth.updateCurrentUser(credential.user);
+    });
+  }
+
+  signInEmailAndPassword(email: string, password: string) {
+    signInWithEmailAndPassword(this.afAuth, email, password).then((credential) => {
       this.afAuth.updateCurrentUser(credential.user);
     });
   }

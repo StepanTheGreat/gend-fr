@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AuthButtonComponent } from 'src/app/auth/auth-button/auth-button.component';
 import { Router } from '@angular/router';
+import { RegistrationContentComponent } from '../registration-content/registration-content.component';
 
 @Component({
   selector: 'app-registration',
@@ -12,14 +13,13 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     IonicModule, CommonModule, FormsModule,
-    AuthButtonComponent, 
+    AuthButtonComponent, RegistrationContentComponent
   ]
 })
-export class RegistrationPage implements OnInit {
+export class RegistrationPage {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
 
-  ngOnInit() {
   }
 
   returnToMain() {
