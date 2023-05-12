@@ -1,4 +1,4 @@
-<ion-grid>
+<ion-grid *ngIf="!signedIn; else notSignedIn">
   <ion-col>
     <ion-col>
       <ion-text>
@@ -9,21 +9,38 @@
       <ion-item>
         <ion-input 
           label="Email" type="email" placeholder="example@email.com"
-          (input)="newValueEmail($event)"
+          (change)="newValueEmail($event)"
         ></ion-input>
       </ion-item>
       <ion-item>
         <ion-input 
           label="Password" [type]="(displayPassword) ? 'text' : 'password'"
-          (input)="newValuePassword($event)"
+          (change)="newValuePassword($event)"
         ></ion-input>
         <ion-icon [name]="(displayPassword)? 'eye-outline' : 'eye-off-outline'" (click)="showPassword()"></ion-icon>
       </ion-item>
     </ion-col>
     <ion-col>
       <ion-row class="signin-btn">
-        <ion-button>Sign in</ion-button>
+        <ion-button (click)="signIn()">Sign in</ion-button>
+        <ion-button (click)="signUp()">Sign up</ion-button>
       </ion-row>
+    </ion-col>
+    <ion-col>
+      <ion-text>
+        {{description}}
+      </ion-text>
     </ion-col>
   </ion-col>
 </ion-grid>
+<ng-template #notSignedIn>
+  <ion-grid>
+    <ion-col>
+      <ion-col>
+        <ion-text>
+          <h1>You're already signed in!</h1>
+        </ion-text>
+      </ion-col>
+    </ion-col>
+  </ion-grid>
+</ng-template>

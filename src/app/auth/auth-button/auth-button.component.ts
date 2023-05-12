@@ -37,10 +37,5 @@ export class AuthButtonComponent {
 
   signInAndOut() {
     this.router.navigate(["registration"]);
-    // if (this.authStatus == SignInStatus.LoggedOff) {
-    //   this.authService.signIn();
-    // } else {
-    //   this.authService.signOut();
-    // }
   }
 }

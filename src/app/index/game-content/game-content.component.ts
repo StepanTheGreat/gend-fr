@@ -13,7 +13,7 @@ import { ScoreAction, WordData } from 'src/app/lib/types';
 
 const COOLDOWN_WON: number = 1000;
 const COOLDOWN_LOST: number = 2500;
-const WORDS_PER_DAY: number = 2;
+const WORDS_PER_DAY: number = 64;
 
 const ARTICLES: {[key: string]: [string, string]} = {
   "masculine": ["le", "un"],
@@ -80,7 +80,7 @@ export class GameContentComponent {
   ];
   correctButtons: number[] = [];
 
-  interactable: boolean = true;
+  interactable: boolean = false;
   word: string = "";
   wordData: WordData = {
     feminine: false,
@@ -95,8 +95,10 @@ export class GameContentComponent {
     private scoreService: ScoreService,
     private storageService: StorageService,
   ) {
+    this.word = "loading...";
     this.storageService.loaded.pipe(take(2)).subscribe((loaded) => {
       if (loaded) {
+        this.interactable = true;
         this.generateWord();
       }
     }); 

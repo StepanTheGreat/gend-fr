@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { StorageService } from "src/app/services/storage/storage.service";
-
 import { Subject } from 'rxjs';
 import { Firestore, doc, setDoc, Unsubscribe, onSnapshot } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, GoogleAuthProvider, User, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
 import { Firestore, setDoc, doc, getDoc, deleteDoc} from '@angular/fire/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const DEFAULT_DATA = {
   "scoreRight": 0,
@@ -22,25 +23,25 @@ export class AuthService {
     });
   }
 
-  signIn() {
-    // GoogleAuth.signIn().then((user) => {
-    //   //@ts-expect-error
-    //   this.afAuth.updateCurrentUser(user);
-    // });
-    // FirebaseAuthentication.signInWithGoogle().then((result) => {
-    //   //@ts-expect-error
-    //   this.afAuth.updateCurrentUser(result.user);
-    // });
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(this.afAuth, provider).then((credential) => {
+  async signIn(email: string, password: string): Promise<string> {
+    let details: string = "";
+    await signInWithEmailAndPassword(this.afAuth, email, password).then((credential) => {
       this.afAuth.updateCurrentUser(credential.user);
+      details = "Succesfully logged in!";
+    }).catch((reason) => {
+      details = "Failed to log in.";
+      console.log(reason);
     });
+    return details;
   }
 
-  signInEmailAndPassword(email: string, password: string) {
-    signInWithEmailAndPassword(this.afAuth, email, password).then((credential) => {
+  async signUp(email: string, password: string): Promise<string> {
+
+    createUserWithEmailAndPassword(this.afAuth, email, password).then((credential) => {
       this.afAuth.updateCurrentUser(credential.user);
     });
+
+    return "";
   }
 
   signOut() {
