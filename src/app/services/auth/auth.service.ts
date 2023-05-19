@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, User, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Firestore, setDoc, doc, getDoc, deleteDoc} from '@angular/fire/firestore';
 import { createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { StorageService } from '../storage/storage.service';
 
 const DEFAULT_DATA = {
   "scoreRight": 0,
@@ -14,7 +15,11 @@ const DEFAULT_DATA = {
 export class AuthService {
   user?: User;
 
-  constructor(private afAuth: Auth, private afStore: Firestore) {
+  constructor(
+    private afAuth: Auth, 
+    private afStore: Firestore, 
+    private storageService: StorageService
+  ) {
     this.afAuth.onAuthStateChanged(newUser => {
       this.user = (newUser) ? newUser : undefined;
       if (newUser) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, getDoc, disableNetwork, getDocFromCache, enableIndexedDbPersistence, enableNetwork } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, disableNetwork, enableNetwork } from '@angular/fire/firestore';
 
 import * as fstorage from "@angular/fire/storage";
 import * as istorage from '@ionic/storage';
@@ -23,7 +23,6 @@ export class StorageService {
     private afStore: Firestore,
     private afStorage: fstorage.Storage,
   ) {
-    this.checkNetwork();
     this.storage.create().then(() => {
       this.loadData().then(() => {
         this.checkDictUpdates().then(() => {
@@ -34,12 +33,13 @@ export class StorageService {
   }
 
   checkNetwork() {
-    this.isOffline = !navigator.onLine;
-    if (this.isOffline) {
+    let isOffline = !navigator.onLine;
+    if (isOffline && !this.isOffline) {
       disableNetwork(this.afStore);
-    } else {
+    } else if (!isOffline && this.isOffline) {
       enableNetwork(this.afStore);
     }
+    this.isOffline = !navigator.onLine;
   }
 
   async loadData() {

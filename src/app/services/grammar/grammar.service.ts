@@ -3,7 +3,7 @@ import { StorageService } from '../storage/storage.service';
 import { take } from 'rxjs';
 
 import { DictType, WordData } from "src/app/lib/types";
-import { randomChoice, weightedRandomWord } from 'src/app/lib/utils';
+import { weightedRandomWord } from 'src/app/lib/utils';
 
 const HOUR: number = 60 * 60000;
 const DAY: number = 24 * HOUR;

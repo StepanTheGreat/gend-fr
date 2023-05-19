@@ -10,16 +10,14 @@ import { environment } from './environments/environment';
 import firebaseConfig from "firebase-config.json";
 
 import { provideFirebaseApp, initializeApp, getApp} from '@angular/fire/app';
-import { provideFirestore, getFirestore, initializeFirestore, persistentLocalCache} from '@angular/fire/firestore';
-import { provideAuth, getAuth, indexedDBLocalPersistence} from '@angular/fire/auth';
+import { provideFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager} from '@angular/fire/firestore';
+import { provideAuth, getAuth} from '@angular/fire/auth';
 import * as fstorage from '@angular/fire/storage';
 import * as istorage from '@ionic/storage-angular';
 
 if (environment.production) {
   enableProdMode();
 }
-
-
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -28,7 +26,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(istorage.IonicStorageModule.forRoot()),
     importProvidersFrom(fstorage.provideStorage(() => fstorage.getStorage())),
     importProvidersFrom(provideFirebaseApp(() => initializeApp(firebaseConfig))),
-    importProvidersFrom(provideFirestore(() => initializeFirestore(getApp(), {localCache: persistentLocalCache()}))),
+    importProvidersFrom(provideFirestore(() => initializeFirestore(getApp(), {localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})}))),
     importProvidersFrom(provideAuth(() => getAuth())),
     provideRouter(routes),
   ],

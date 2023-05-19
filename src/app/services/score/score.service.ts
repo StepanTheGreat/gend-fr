@@ -23,6 +23,7 @@ export class ScoreService {
     private afAuth: Auth,
     private storeService: StorageService
   ) { 
+    this.storeService.checkNetwork();
     this.afAuth.onAuthStateChanged((user) => {
       if (user) {
         const docRef = doc(this.afStore, `users/${user.uid}`);
