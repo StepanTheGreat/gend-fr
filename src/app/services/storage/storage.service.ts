@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, disableNetwork, getDocFromCache, enableIndexedDbPersistence, enableNetwork } from '@angular/fire/firestore';
 
 import * as fstorage from "@angular/fire/storage";
 import * as istorage from '@ionic/storage';
@@ -16,12 +16,14 @@ export class StorageService {
   activeDictionary: DictType = {};
   dictionaryVersion: string = "0.0.0";
   loaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isOffline: boolean = false;
 
   constructor(
     private storage: istorage.Storage,
     private afStore: Firestore,
-    private afStorage: fstorage.Storage
+    private afStorage: fstorage.Storage,
   ) {
+    this.checkNetwork();
     this.storage.create().then(() => {
       this.loadData().then(() => {
         this.checkDictUpdates().then(() => {
@@ -31,12 +33,23 @@ export class StorageService {
     });
   }
 
+  checkNetwork() {
+    this.isOffline = !navigator.onLine;
+    if (this.isOffline) {
+      disableNetwork(this.afStore);
+    } else {
+      enableNetwork(this.afStore);
+    }
+  }
+
   async loadData() {
+    console.log("Loading the dictionary!");
     let dictionary = await this.get("dictionary");
     if (dictionary) {
       this.dictionary = dictionary;
     }
 
+    console.log("Loading the version!");
     let dictionaryVersion = await this.get("dictionaryVersion");
     if (dictionaryVersion) {
       this.dictionaryVersion = dictionaryVersion;
@@ -49,7 +62,8 @@ export class StorageService {
 
     if (docSnapshot.exists()) {
       const data = docSnapshot.data();
-      const version = data["version"];
+      console.log(data);
+      const version: string = (data["version"])? data["version"] : this.dictionaryVersion;
 
       if (this.dictionaryVersion != version) {
         const dictRef = fstorage.ref(this.afStorage, "words.json");

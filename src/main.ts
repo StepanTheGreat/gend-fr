@@ -9,12 +9,11 @@ import { environment } from './environments/environment';
 
 import firebaseConfig from "firebase-config.json";
 
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { provideAuth, getAuth, initializeAuth, indexedDBLocalPersistence, Auth } from '@angular/fire/auth';
+import { provideFirebaseApp, initializeApp} from '@angular/fire/app';
+import { provideFirestore, getFirestore} from '@angular/fire/firestore';
+import { provideAuth, getAuth} from '@angular/fire/auth';
 import * as fstorage from '@angular/fire/storage';
 import * as istorage from '@ionic/storage-angular';
-import { Capacitor } from '@capacitor/core';
 
 if (environment.production) {
   enableProdMode();

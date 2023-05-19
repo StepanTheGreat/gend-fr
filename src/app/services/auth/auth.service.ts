@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Auth, GoogleAuthProvider, User, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
+import { Auth, User, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Firestore, setDoc, doc, getDoc, deleteDoc} from '@angular/fire/firestore';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from '@angular/fire/auth';
 
 const DEFAULT_DATA = {
   "scoreRight": 0,

@@ -5,6 +5,7 @@ import { Firestore, doc, setDoc, Unsubscribe, onSnapshot } from '@angular/fire/f
 import { Auth } from '@angular/fire/auth';
 
 import { userData, ScoreAction } from 'src/app/lib/types';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class ScoreService {
   constructor(
     private afStore: Firestore,
     private afAuth: Auth,
+    private storeService: StorageService
   ) { 
     this.afAuth.onAuthStateChanged((user) => {
       if (user) {
@@ -44,6 +46,7 @@ export class ScoreService {
   }
 
   updateScore(scoreEvent: ScoreAction) {
+    this.storeService.checkNetwork();
     if (scoreEvent == ScoreAction.RightAdd) {
       this.scoreRight += 1;
     } else if (scoreEvent == ScoreAction.WrongAdd) {
@@ -58,6 +61,7 @@ export class ScoreService {
   }
 
   resetScore() {
+    this.storeService.checkNetwork();
     this.setScore({
       "scoreRight": 0,
       "scoreWrong": 0,

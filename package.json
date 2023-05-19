@@ -31,7 +31,6 @@
     "@ionic/storage-angular": "^3.0.6",
     "@ngrx/store": "^15.4.0",
     "cordova-plugin-googleplus": "^8.5.2",
-    "firebase": "^9.21.0",
     "ionicons": "^7.0.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
