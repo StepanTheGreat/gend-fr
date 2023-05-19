@@ -9,9 +9,9 @@ import { environment } from './environments/environment';
 
 import firebaseConfig from "firebase-config.json";
 
-import { provideFirebaseApp, initializeApp} from '@angular/fire/app';
-import { provideFirestore, getFirestore} from '@angular/fire/firestore';
-import { provideAuth, getAuth} from '@angular/fire/auth';
+import { provideFirebaseApp, initializeApp, getApp} from '@angular/fire/app';
+import { provideFirestore, getFirestore, initializeFirestore, persistentLocalCache} from '@angular/fire/firestore';
+import { provideAuth, getAuth, indexedDBLocalPersistence} from '@angular/fire/auth';
 import * as fstorage from '@angular/fire/storage';
 import * as istorage from '@ionic/storage-angular';
 
@@ -19,16 +19,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-// let app = initializeApp(firebaseConfig);
-// let auth: Auth;
-// if (Capacitor.isNativePlatform()) {
-//   console.error("ON CAPACITOR!!!");
-//   auth = initializeAuth(app, {
-//     persistence: indexedDBLocalPersistence,
-//   });
-// } else {
-//   auth = getAuth();
-// }
 
 
 bootstrapApplication(AppComponent, {
@@ -38,7 +28,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(istorage.IonicStorageModule.forRoot()),
     importProvidersFrom(fstorage.provideStorage(() => fstorage.getStorage())),
     importProvidersFrom(provideFirebaseApp(() => initializeApp(firebaseConfig))),
-    importProvidersFrom(provideFirestore(() => getFirestore())),
+    importProvidersFrom(provideFirestore(() => initializeFirestore(getApp(), {localCache: persistentLocalCache()}))),
     importProvidersFrom(provideAuth(() => getAuth())),
     provideRouter(routes),
   ],

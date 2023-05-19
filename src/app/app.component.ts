@@ -1,9 +1,8 @@
 import { Component, EnvironmentInjector, OnInit, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { Firestore, enableIndexedDbPersistence } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
-import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +18,6 @@ export class AppComponent implements OnInit {
 
   firestore: Firestore = inject(Firestore);
   auth: Auth = inject(Auth);
-
-  constructor() {
-    enableIndexedDbPersistence(this.firestore);
-  }
 
   async ngOnInit() {
     document.body.classList.add("dark");
