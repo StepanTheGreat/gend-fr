@@ -6,16 +6,17 @@ import { StorageService } from '../storage/storage.service';
 })
 export class ThemeService {
   constructor(private storageService: StorageService) {
-    this.storageService.get("lightTheme").then((lightTheme) => {
-      if (typeof lightTheme != "boolean") {
-        lightTheme = false;
-        this.storageService.set("lightTheme", false);
-      }
-      if (this.isColorThemeLight() != lightTheme) {
-        this.changeColorTheme();
-      }
+    this.storageService.get("lightTheme").then((lightTheme) => this.initTheme(lightTheme));
+  }
 
-    });
+  async initTheme(lightTheme?: boolean) {
+    if (typeof lightTheme != "boolean") {
+      lightTheme = true;
+      await this.storageService.set("lightTheme", true);
+    }
+    if (this.isColorThemeLight() != lightTheme) {
+      this.changeColorTheme();
+    }
   }
 
   isColorThemeLight(): boolean {

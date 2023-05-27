@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Firestore } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
+import { ThemeService } from './services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,10 @@ export class AppComponent {
 
   firestore: Firestore = inject(Firestore);
   auth: Auth = inject(Auth);
+
+  constructor(private themeService: ThemeService) {
+
+  }
 
   public environmentInjector = inject(EnvironmentInjector);
 }
