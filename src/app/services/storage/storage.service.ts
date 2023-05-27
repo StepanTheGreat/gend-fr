@@ -13,7 +13,6 @@ import { DictType } from 'src/app/lib/types';
 export class StorageService {
 
   dictionary: DictType = {};
-  activeDictionary: DictType = {};
   dictionaryVersion: string = "0.0.0";
   loaded: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isOffline: boolean = false;
@@ -47,6 +46,7 @@ export class StorageService {
     let dictionary = await this.get("dictionary");
     if (dictionary) {
       this.dictionary = dictionary;
+      console.log(this.dictionary);
     }
 
     console.log("Loading the version!");
@@ -82,8 +82,6 @@ export class StorageService {
       if (!(word in this.dictionary)) {
         this.dictionary[word] = {
           feminine: wordData["feminine"],
-          plural: wordData["plural"],
-          dualAnswer: wordData["dualAnswer"],
           frequency: wordData["frequency"],
           learnStage: 0,
           showAgainAt: 0,

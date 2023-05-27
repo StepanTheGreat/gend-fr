@@ -1,8 +1,6 @@
 export type DictType = {
     [word: string] : {
         feminine: boolean,
-        plural: boolean,
-        dualAnswer: boolean,
         frequency: number,
         learnStage: number,
         showAgainAt: number
@@ -11,8 +9,6 @@ export type DictType = {
 
 export interface WordData {
     feminine: boolean,
-    plural: boolean,
-    dualAnswer: boolean,
     frequency: number
 }
 

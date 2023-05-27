@@ -18,9 +18,6 @@ const ENDINGS: string[][] = [
     "ade", "aison", "ce", "ee", "ie", "iere", "ine", "ion", "ite",
     "lle", "se", "tte", "ude", "ure"
   ],
-  [
-    "x", "aux", "ails", "ous"
-  ]
 ];
 
 const STAGE_WAITING: {[stage: number]: number} = {
@@ -116,11 +113,7 @@ export class GrammarService {
 }
 
 function wordDataToIndex(data: WordData) {
-  if (data.plural) {
-    return 2;
-  } else {
-    return (data.feminine) ? 1 : 0;
-  }
+  return (data.feminine) ? 1 : 0;
 }
 
 // Word structure:

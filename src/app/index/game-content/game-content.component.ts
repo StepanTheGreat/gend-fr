@@ -18,7 +18,6 @@ const WORDS_PER_DAY: number = 64;
 const ARTICLES: {[key: string]: [string, string]} = {
   "masculine": ["le", "un"],
   "feminine":  ["la", "une"],
-  "plural":    ["les", "des"]
 };
 
 enum ButtonTheme {
@@ -72,11 +71,6 @@ export class GameContentComponent {
       btnTheme: ButtonTheme.Default,
       btnIndex: ButtonIndex.Feminine
     },
-    {
-      articles: ARTICLES["plural"],
-      btnTheme: ButtonTheme.Default,
-      btnIndex: ButtonIndex.Plural
-    },
   ];
   correctButtons: number[] = [];
 
@@ -84,8 +78,6 @@ export class GameContentComponent {
   word: string = "";
   wordData: WordData = {
     feminine: false,
-    plural: false,
-    dualAnswer: false,
     frequency: 0.0
   };
   wordEnding: string = "";
@@ -159,18 +151,11 @@ export class GameContentComponent {
   setupButtons() {
     this.articleIndex = Math.round(Math.random());
     this.correctButtons = [];
-
-    if (this.wordData.plural) {
-      this.correctButtons.push(ButtonIndex.Plural);
+    
+    if (this.wordData.feminine) {
+      this.correctButtons.push(ButtonIndex.Feminine);
+    } else {
+      this.correctButtons.push(ButtonIndex.Masculine);
     }
-
-    if (!this.wordData.plural || this.wordData.dualAnswer) {
-      if (this.wordData.feminine) {
-        this.correctButtons.push(ButtonIndex.Feminine);
-      } else {
-        this.correctButtons.push(ButtonIndex.Masculine);
-      }
-    }
-
   }
 }
