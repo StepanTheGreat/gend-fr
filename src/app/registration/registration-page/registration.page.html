@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-row class="header-toolbar">
+      <ion-button class="return-btn" (click)="returnToMain()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-title class="welcome-title">Sign in</ion-title>
+      <ion-button class="options-btn" (click)="goToSettings()">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <app-registration-content></app-registration-content>
+</ion-content>

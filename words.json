@@ -1,0 +1,308 @@
+{
+  "voiture": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.9
+  },
+  "maison": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.8
+  },
+  "table": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.7
+  },
+  "chaise": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.6
+  },
+  "livre": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.5
+  },
+  "fenêtre": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.4
+  },
+  "école": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.3
+  },
+  "balle": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.2
+  },
+  "ordinateur": {
+        "feminine": false,
+        "plural": false,
+        "frequency": 0.1
+  },
+  "femme": {
+        "feminine": true,
+        "plural": false,
+        "frequency": 0.9
+  },
+  "fille": {
+        "feminine": true,
+        "plural": false,
+        "frequency": 0.8
+  },
+  "mère": {
+        "feminine": true,
+        "plural": false,
+        "frequency": 0.7
+  },
+  "amie": {
+        "feminine": true,
+        "plural": false,
+        "frequency": 0.6
+  },
+  "sœur": {
+        "feminine": true,
+        "plural": false,
+        "frequency": 0.5
+  },
+  "chaussures": {
+        "feminine": true,
+        "plural": true,
+        "frequency": 0.4
+  },
+  "voitures": {
+        "feminine": false,
+        "plural": true,
+        "frequency": 0.3
+  },
+  "maisons": {
+        "feminine": false,
+        "plural": true,
+        "frequency": 0.2
+  },
+  "tables": {
+        "feminine": false,
+        "plural": true,
+        "frequency": 0.1
+  },
+  "café": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.8
+  },
+  "chapelet": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.2
+  },
+  "ciel": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.9
+  },
+  "fleur": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.8
+  },
+  "gâteau": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.6
+  },
+  "lumière": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.6
+  },
+  "main": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.9
+  },
+  "oiseau": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.7
+  },
+  "parapluie": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.3
+  },
+  "soleil": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.8
+  },
+  "temps": {
+    "feminine": false,
+    "plural": true,
+    "frequency": 0.9
+  },
+  "verre": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.7
+  },
+  "pluie": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.6
+  },
+  "montre": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "couleur": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.7
+  },
+  "fauteuil": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "bureau": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.9
+  },
+  "guitare": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.3
+  },
+  "histoire": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.9
+  },
+  "radio": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "chemise": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.6
+  },
+  "chapeau": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.7
+  },
+  "souris": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "arbre": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.8
+  },
+  "bagage": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.4
+  },
+  "boisson": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.7
+  },
+  "chien": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.9
+  },
+  "danse": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "escalier": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.6
+  },
+  "fête": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.9
+  },
+  "herbe": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.8
+  },
+  "immeuble": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "jardin": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.8
+  },
+  "neige": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.6
+  },
+  "ombre": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.7
+  },
+  "papillon": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "quartier": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.7
+  },
+  "route": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.8
+  },
+  "salade": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.6
+  },
+  "théâtre": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.5
+  },
+  "uniforme": {
+    "feminine": true,
+    "plural": false,
+    "frequency": 0.3
+  },
+  "xylophone": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.1
+  },
+  "yacht": {
+    "feminine": false,
+    "plural": false,
+    "frequency": 0.1
+  }
+}
+  

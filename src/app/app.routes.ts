@@ -1,8 +1,17 @@
 import { Routes } from '@angular/router';
 
+import { IndexPage } from './index/index-page/index.page';
+import { SettingsPage } from './settings/settings-page/settings.page';
+import { RegistrationPage } from "src/app/registration/registration-page/registration.page";
+
 export const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    path: "", component: IndexPage,
+  },
+  {
+    path: 'settings', component: SettingsPage
+  },
+  {
+    path: 'registration', component: RegistrationPage
   },
 ];

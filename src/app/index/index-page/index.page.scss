@@ -1,0 +1,19 @@
+.welcome-title, .score-text {
+    text-align: center;
+}
+
+.header-toolbar {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.score-text > * {
+    text-align: center;
+}
+
+.score-ratio-text {
+    --correct-level: 0.1;
+    color: hsl( 
+        calc( var(--correct-level) * 128), 100%, 50%
+    );
+}

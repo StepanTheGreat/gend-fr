@@ -1,0 +1,15 @@
+ion-button {
+    --background: var(--ion-color-primary);
+    --transition: 0.15s linear;
+
+    border-radius: 5px;
+    display: block;
+}
+
+.theme-wrong {
+    --background: var(--ion-color-danger);
+}
+
+.theme-success {
+    --background: var(--ion-color-success);
+}

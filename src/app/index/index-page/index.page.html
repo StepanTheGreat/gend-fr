@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-row class="header-toolbar">
+      <app-auth-button></app-auth-button>
+      <ion-title class="welcome-title">Welcome</ion-title>
+      <ion-button class="options-btn" (click)="goToSettings()">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-text class="score-text">
+    <h1>Your score:</h1>
+    <h2 
+      class="score-ratio-text" 
+      [ngStyle]="{'--correct-level': this.scoreRatio/100}"
+    >{{scoreRatio}}%</h2>
+  </ion-text>
+  <app-game-content></app-game-content>
+</ion-content>
+
+
